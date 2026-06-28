@@ -1,0 +1,4993 @@
+[
+  {
+    "name": "Incineroar",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "safetygoggles",
+        "nature": "Impish",
+        "evs": "252 HP / 196 Def / 60 SpD",
+        "moves": [
+          "fakeout",
+          "knockoff",
+          "partingshot",
+          "flareblitz"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Rillaboom",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "grassysurge",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "grassyglide",
+          "woodhammer",
+          "fakeout",
+          "uturn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Urshifu-Rapid-Strike",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unseenfist",
+        "item": "choicescarf",
+        "nature": "Adamant",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "surgingstrikes",
+          "closecombat",
+          "aquajet",
+          "uturn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Tornadus",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "covertcloak",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "tailwind",
+          "bleakwindstorm",
+          "raindance",
+          "taunt"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Flutter Mane",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "boosterenergy",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "moonblast",
+          "shadowball",
+          "icywind",
+          "dazzlinggleam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Raging Bolt",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "assaultvest",
+        "nature": "Modest",
+        "evs": "244 HP / 252 SpA / 12 SpD",
+        "moves": [
+          "thunderclap",
+          "dracometeor",
+          "thunderbolt",
+          "snarl"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Amoonguss",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "regenerator",
+        "item": "rockyhelmet",
+        "nature": "Bold",
+        "evs": "236 HP / 236 Def / 36 SpD",
+        "moves": [
+          "spore",
+          "ragepowder",
+          "pollenpuff",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Farigiraf",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "armortail",
+        "item": "electricseed",
+        "nature": "Bold",
+        "evs": "180 HP / 236 Def / 92 SpD",
+        "moves": [
+          "trickroom",
+          "helpinghand",
+          "foulplay",
+          "psychic"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Whimsicott",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "tailwind",
+          "moonblast",
+          "encore",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Calyrex-Shadow",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "asonespectrier",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "astralbarrage",
+          "protect",
+          "drainingkiss",
+          "nastyplot"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Calyrex-Ice",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "asoneglastrier",
+        "item": "clearamulet",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "glaciallance",
+          "protect",
+          "trickroom",
+          "highhorsepower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Miraidon",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "hadronengine",
+        "item": "choicespecs",
+        "nature": "Modest",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "electrodrift",
+          "voltswitch",
+          "dracometeor",
+          "discharge"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Chi-Yu",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "beadsofruin",
+        "item": "choicescarf",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "heatwave",
+          "darkpulse",
+          "overheat",
+          "snarl"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Pelipper",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "drizzle",
+        "item": "focussash",
+        "nature": "Modest",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "hurricane",
+          "wideguard",
+          "weatherball",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ursaluna-Bloodmoon",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "mindseye",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "bloodmoon",
+          "hypervoice",
+          "earthpower",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Indeedee-F",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "psychicsurge",
+        "item": "psychicseed",
+        "nature": "Bold",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "followme",
+          "trickroom",
+          "helpinghand",
+          "dazzlinggleam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Chien-Pao",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "swordofruin",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "protect",
+          "suckerpunch",
+          "sacredsword",
+          "iciclecrash"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Urshifu",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unseenfist",
+        "item": "focussash",
+        "nature": "Adamant",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "wickedblow",
+          "closecombat",
+          "suckerpunch",
+          "detect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ogerpon-Wellspring",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "waterabsorb",
+        "item": "wellspringmask",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "ivycudgel",
+          "spikyshield",
+          "followme",
+          "hornleech"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kyogre",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "drizzle",
+        "item": "mysticwater",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "waterspout",
+          "originpulse",
+          "icebeam",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Zamazenta-Crowned",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "dauntlessshield",
+        "item": "rustedshield",
+        "nature": "Impish",
+        "evs": "196 HP / 156 Def / 156 Spe",
+        "moves": [
+          "bodypress",
+          "protect",
+          "heavyslam",
+          "irondefense"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Terapagos",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "terashift",
+        "item": "choicespecs",
+        "nature": "Modest",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "terastarstorm",
+          "earthpower",
+          "protect",
+          "calmmind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Koraidon",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "orichalcumpulse",
+        "item": "clearamulet",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "collisioncourse",
+          "flareblitz",
+          "protect",
+          "flamecharge"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ogerpon-Cornerstone",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sturdy",
+        "item": "cornerstonemask",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "ivycudgel",
+          "followme",
+          "spikyshield",
+          "powerwhip"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Landorus",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sheerforce",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "sludgebomb",
+          "protect",
+          "earthpower",
+          "sandsearstorm"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Clefairy",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "friendguard",
+        "item": "eviolite",
+        "nature": "Sassy",
+        "evs": "252 HP / 188 Def / 68 SpD",
+        "moves": [
+          "followme",
+          "helpinghand",
+          "protect",
+          "afteryou"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Hands",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "fakeout",
+          "drainpunch",
+          "wildcharge",
+          "icepunch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Grimmsnarl",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "lightclay",
+        "nature": "Careful",
+        "evs": "252 HP / 4 Atk / 252 SpD",
+        "moves": [
+          "lightscreen",
+          "reflect",
+          "spiritbreak",
+          "thunderwave"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gholdengo",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "goodasgold",
+        "item": "leftovers",
+        "nature": "Modest",
+        "evs": "164 HP / 20 Def / 52 SpA / 188 SpD / 76 Spe",
+        "moves": [
+          "makeitrain",
+          "shadowball",
+          "protect",
+          "nastyplot"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Groudon",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "drought",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "precipiceblades",
+          "protect",
+          "heatcrash",
+          "swordsdance"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ogerpon-Hearthflame",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "moldbreaker",
+        "item": "hearthflamemask",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "ivycudgel",
+          "spikyshield",
+          "followme",
+          "woodhammer"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ting-Lu",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "vesselofruin",
+        "item": "assaultvest",
+        "nature": "Calm",
+        "evs": "212 HP / 44 Def / 4 SpA / 100 SpD / 148 Spe",
+        "moves": [
+          "stompingtantrum",
+          "ruination",
+          "snarl",
+          "heavyslam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Walking Wake",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "44 HP / 212 SpA / 252 Spe",
+        "moves": [
+          "hydrosteam",
+          "dracometeor",
+          "flamethrower",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Archaludon",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "stamina",
+        "item": "assaultvest",
+        "nature": "Modest",
+        "evs": "252 HP / 28 Def / 36 SpA / 164 SpD / 28 Spe",
+        "moves": [
+          "electroshot",
+          "flashcannon",
+          "bodypress",
+          "dracometeor"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Torkoal",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "drought",
+        "item": "charcoal",
+        "nature": "Quiet",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "eruption",
+          "earthpower",
+          "protect",
+          "heatwave"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Mienshao",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "closecombat",
+          "wideguard",
+          "fakeout",
+          "feint"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Lunala",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "shadowshield",
+        "item": "powerherb",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "moongeistbeam",
+          "meteorbeam",
+          "wideguard",
+          "moonblast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Annihilape",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "defiant",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "252 HP / 4 Atk / 252 Spe",
+        "moves": [
+          "finalgambit",
+          "ragefist",
+          "closecombat",
+          "drainpunch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Bundle",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "freezedry",
+          "icywind",
+          "protect",
+          "hydropump"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kingambit",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "defiant",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "suckerpunch",
+          "kowtowcleave",
+          "ironhead",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ninetales-Alola",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "snowwarning",
+        "item": "lightclay",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "auroraveil",
+          "blizzard",
+          "moonblast",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ursaluna",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "guts",
+        "item": "flameorb",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "facade",
+          "protect",
+          "headlongrush",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Zacian-Crowned",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "intrepidsword",
+        "item": "rustedsword",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "ironhead",
+          "protect",
+          "playrough",
+          "swordsdance"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Moltres-Galar",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "berserk",
+        "item": "blackglasses",
+        "nature": "Modest",
+        "evs": "212 HP / 92 Def / 76 SpA / 4 SpD / 124 Spe",
+        "moves": [
+          "fierywrath",
+          "protect",
+          "tailwind",
+          "foulplay"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Dondozo",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unaware",
+        "item": "leftovers",
+        "nature": "Adamant",
+        "evs": "4 HP / 156 Atk / 20 Def / 76 SpD / 252 Spe",
+        "moves": [
+          "protect",
+          "wavecrash",
+          "orderup",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Smeargle",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "moody",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "252 HP / 4 Atk / 252 Spe",
+        "moves": [
+          "spore",
+          "followme",
+          "fakeout",
+          "wideguard"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Comfey",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "triage",
+        "item": "sitrusberry",
+        "nature": "Bold",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "floralhealing",
+          "drainingkiss",
+          "trickroom",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Landorus-Therian",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "uturn",
+          "stompingtantrum",
+          "rockslide",
+          "terablast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Regieleki",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "transistor",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "electroweb",
+          "protect",
+          "terablast",
+          "voltswitch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Tsareena",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "queenlymajesty",
+        "item": "widelens",
+        "nature": "Adamant",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "tripleaxel",
+          "powerwhip",
+          "taunt",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Entei",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "sacredfire",
+          "extremespeed",
+          "stompingtantrum",
+          "snarl"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ditto",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "imposter",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "252 HP / 4 Def / 252 Spe",
+        "moves": [
+          "transform"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Tatsugiri",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "commander",
+        "item": "choicescarf",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "dracometeor",
+          "muddywater",
+          "icywind",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sinistcha",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "hospitality",
+        "item": "rockyhelmet",
+        "nature": "Bold",
+        "evs": "252 HP / 252 Def / 4 SpA",
+        "moves": [
+          "matchagotcha",
+          "ragepowder",
+          "trickroom",
+          "lifedew"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gouging Fire",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "boosterenergy",
+        "nature": "Jolly",
+        "evs": "84 HP / 164 Atk / 4 Def / 4 SpD / 252 Spe",
+        "moves": [
+          "breakingswipe",
+          "burningbulwark",
+          "howl",
+          "heatcrash"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Volcarona",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flamebody",
+        "item": "leftovers",
+        "nature": "Modest",
+        "evs": "252 HP / 116 SpA / 140 Spe",
+        "moves": [
+          "protect",
+          "quiverdance",
+          "ragepowder",
+          "strugglebug"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Dragonite",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "choiceband",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "extremespeed",
+          "outrage",
+          "stompingtantrum",
+          "aerialace"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Valiant",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "wideguard",
+          "closecombat",
+          "spiritbreak",
+          "moonblast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kyurem-White",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "turboblaze",
+        "item": "assaultvest",
+        "nature": "Modest",
+        "evs": "100 HP / 44 Def / 252 SpA / 100 SpD / 12 Spe",
+        "moves": [
+          "blizzard",
+          "freezedry",
+          "fusionflare",
+          "earthpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Latios",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "souldew",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "lusterpurge",
+          "dracometeor",
+          "protect",
+          "icywind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Regidrago",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "dragonsmaw",
+        "item": "lifeorb",
+        "nature": "Modest",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "dragonenergy",
+          "dracometeor",
+          "protect",
+          "earthpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gastrodon",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "stormdrain",
+        "item": "leftovers",
+        "nature": "Calm",
+        "evs": "180 HP / 92 Def / 92 SpA / 140 SpD",
+        "moves": [
+          "earthpower",
+          "protect",
+          "yawn",
+          "icebeam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Raichu",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "lightningrod",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "fakeout",
+          "nuzzle",
+          "voltswitch",
+          "endeavor"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sableye",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "lightclay",
+        "nature": "Calm",
+        "evs": "252 HP / 4 Def / 252 SpD",
+        "moves": [
+          "lightscreen",
+          "encore",
+          "reflect",
+          "foulplay"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Araquanid",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "waterbubble",
+        "item": "clearamulet",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 Def",
+        "moves": [
+          "liquidation",
+          "wideguard",
+          "protect",
+          "leechlife"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ho-Oh",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "regenerator",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "252 HP / 76 Atk / 148 Def / 4 SpD / 28 Spe",
+        "moves": [
+          "sacredfire",
+          "bravebird",
+          "protect",
+          "recover"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Cresselia",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "safetygoggles",
+        "nature": "Sassy",
+        "evs": "252 HP / 4 SpA / 252 SpD",
+        "moves": [
+          "lunarblessing",
+          "trickroom",
+          "moonblast",
+          "allyswitch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Tyranitar",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sandstream",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "rockslide",
+          "knockoff",
+          "terablast",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Roaring Moon",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "boosterenergy",
+        "nature": "Jolly",
+        "evs": "28 HP / 220 Atk / 4 Def / 4 SpD / 252 Spe",
+        "moves": [
+          "knockoff",
+          "tailwind",
+          "protect",
+          "breakingswipe"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Eternatus",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "pressure",
+        "item": "powerherb",
+        "nature": "Modest",
+        "evs": "20 HP / 252 SpA / 236 Spe",
+        "moves": [
+          "dynamaxcannon",
+          "sludgebomb",
+          "protect",
+          "flamethrower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Brute Bonnet",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "sitrusberry",
+        "nature": "Impish",
+        "evs": "252 HP / 156 Def / 100 SpD",
+        "moves": [
+          "spore",
+          "ragepowder",
+          "crunch",
+          "suckerpunch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Rayquaza",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "restricted_legendary": true,
+    "builds": {
+      "goodstuff": {
+        "ability": "airlock",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "dragonascent",
+          "extremespeed",
+          "protect",
+          "swordsdance"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Glimmora",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "toxicdebris",
+        "item": "powerherb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "spikyshield",
+          "sludgebomb",
+          "mortalspin",
+          "powergem"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Armarouge",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flashfire",
+        "item": "weaknesspolicy",
+        "nature": "Quiet",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "expandingforce",
+          "wideguard",
+          "armorcannon",
+          "trickroom"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Garganacl",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "purifyingsalt",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "252 HP / 4 Def / 252 SpD",
+        "moves": [
+          "saltcure",
+          "wideguard",
+          "recover",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Jugulis",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "boosterenergy",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "tailwind",
+          "snarl",
+          "protect",
+          "airslash"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Lilligant-Hisui",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "chlorophyll",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "closecombat",
+          "sleeppowder",
+          "afteryou",
+          "solarblade"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Wo-Chien",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "tabletsofruin",
+        "item": "leftovers",
+        "nature": "Calm",
+        "evs": "252 HP / 252 Def / 4 Spe",
+        "moves": [
+          "protect",
+          "leechseed",
+          "snarl",
+          "foulplay"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Milotic",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "competitive",
+        "item": "leftovers",
+        "nature": "Calm",
+        "evs": "252 HP / 44 Def / 4 SpA / 172 SpD / 36 Spe",
+        "moves": [
+          "scald",
+          "hypnosis",
+          "coil",
+          "lifedew"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Lugia",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "multiscale",
+        "item": "leftovers",
+        "nature": "Modest",
+        "evs": "252 HP / 180 Def / 72 SpA / 4 Spe",
+        "moves": [
+          "aeroblast",
+          "calmmind",
+          "recover",
+          "earthpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Thundurus",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "covertcloak",
+        "nature": "Bold",
+        "evs": "252 HP / 236 Def / 20 SpD",
+        "moves": [
+          "eerieimpulse",
+          "wildboltstorm",
+          "thunderwave",
+          "taunt"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gallade",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sharpness",
+        "item": "clearamulet",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 Def",
+        "moves": [
+          "sacredsword",
+          "wideguard",
+          "psychocut",
+          "trickroom"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gothitelle",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "shadowtag",
+        "item": "covertcloak",
+        "nature": "Bold",
+        "evs": "252 HP / 116 Def / 140 SpD",
+        "moves": [
+          "fakeout",
+          "helpinghand",
+          "taunt",
+          "foulplay"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Porygon2",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "download",
+        "item": "eviolite",
+        "nature": "Quiet",
+        "evs": "244 HP / 4 Atk / 36 Def / 92 SpA / 132 SpD",
+        "moves": [
+          "trickroom",
+          "recover",
+          "terablast",
+          "icebeam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Zapdos-Galar",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "defiant",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "bravebird",
+          "closecombat",
+          "thunderouskick",
+          "uturn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Primarina",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "liquidvoice",
+        "item": "leftovers",
+        "nature": "Modest",
+        "evs": "252 HP / 4 Def / 252 SpA",
+        "moves": [
+          "hypervoice",
+          "moonblast",
+          "protect",
+          "calmmind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Venusaur",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "chlorophyll",
+        "item": "lifeorb",
+        "nature": "Modest",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "sludgebomb",
+          "sleeppowder",
+          "protect",
+          "weatherball"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Hitmontop",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "sitrusberry",
+        "nature": "Impish",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "fakeout",
+          "wideguard",
+          "closecombat",
+          "feint"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Maushold",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "friendguard",
+        "item": "widelens",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "followme",
+          "protect",
+          "populationbomb",
+          "feint"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Arcanine-Hisui",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "choiceband",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "flareblitz",
+          "extremespeed",
+          "rockslide",
+          "headsmash"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Umbreon",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "safetygoggles",
+        "nature": "Bold",
+        "evs": "252 HP / 156 Def / 100 SpD",
+        "moves": [
+          "foulplay",
+          "snarl",
+          "taunt",
+          "yawn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sneasler",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unburden",
+        "item": "electricseed",
+        "nature": "Adamant",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "closecombat",
+          "direclaw",
+          "protect",
+          "fakeout"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Necrozma-Dawn-Wings",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prismarmor",
+        "item": "powerherb",
+        "nature": "Quiet",
+        "evs": "252 HP / 4 Def / 252 SpA",
+        "moves": [
+          "moongeistbeam",
+          "expandingforce",
+          "trickroom",
+          "meteorbeam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Scream Tail",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "boosterenergy",
+        "nature": "Jolly",
+        "evs": "252 HP / 4 Atk / 252 Spe",
+        "moves": [
+          "encore",
+          "disable",
+          "protect",
+          "dazzlinggleam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Moth",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "powerherb",
+        "nature": "Timid",
+        "evs": "172 HP / 84 SpA / 252 Spe",
+        "moves": [
+          "protect",
+          "heatwave",
+          "meteorbeam",
+          "acidspray"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ogerpon",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "defiant",
+        "item": "covertcloak",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "ivycudgel",
+          "spikyshield",
+          "followme",
+          "superpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Murkrow",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "eviolite",
+        "nature": "Bold",
+        "evs": "252 HP / 148 Def / 108 SpD",
+        "moves": [
+          "tailwind",
+          "foulplay",
+          "haze",
+          "taunt"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Oranguru",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "mentalherb",
+        "nature": "Relaxed",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "instruct",
+          "trickroom",
+          "foulplay",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ceruledge",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flashfire",
+        "item": "clearamulet",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "bitterblade",
+          "shadowsneak",
+          "protect",
+          "bulkup"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Bronzong",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "leftovers",
+        "nature": "Relaxed",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "trickroom",
+          "bodypress",
+          "irondefense",
+          "gyroball"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Okidogi",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "guarddog",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 Spe",
+        "moves": [
+          "drainpunch",
+          "knockoff",
+          "poisonjab",
+          "upperhand"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Tinkaton",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "moldbreaker",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "180 HP / 124 Atk / 108 Def / 4 SpD / 92 Spe",
+        "moves": [
+          "fakeout",
+          "gigatonhammer",
+          "playrough",
+          "helpinghand"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Muk-Alola",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "powerofalchemy",
+        "item": "leftovers",
+        "nature": "Bold",
+        "evs": "252 HP / 196 Def / 60 SpD",
+        "moves": [
+          "knockoff",
+          "minimize",
+          "protect",
+          "toxic"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Treads",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "assaultvest",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "highhorsepower",
+          "ironhead",
+          "protect",
+          "knockoff"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Talonflame",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "galewings",
+        "item": "covertcloak",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "tailwind",
+          "bravebird",
+          "taunt",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Hatterene",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "magicbounce",
+        "item": "lifeorb",
+        "nature": "Quiet",
+        "evs": "252 HP / 4 Def / 252 SpA",
+        "moves": [
+          "dazzlinggleam",
+          "trickroom",
+          "expandingforce",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Chandelure",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flashfire",
+        "item": "lifeorb",
+        "nature": "Modest",
+        "evs": "252 SpA / 252 Spe",
+        "moves": [
+          "shadowball",
+          "heatwave",
+          "trickroom",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Heatran",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flashfire",
+        "item": "leftovers",
+        "nature": "Modest",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "protect",
+          "heatwave",
+          "earthpower",
+          "flashcannon"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Weezing-Galar",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "neutralizinggas",
+        "item": "sitrusberry",
+        "nature": "Calm",
+        "evs": "252 HP / 4 Def / 252 SpD",
+        "moves": [
+          "protect",
+          "willowisp",
+          "taunt",
+          "strangesteam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Skeledirge",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unaware",
+        "item": "safetygoggles",
+        "nature": "Modest",
+        "evs": "228 HP / 4 Def / 76 SpA / 196 SpD / 4 Spe",
+        "moves": [
+          "torchsong",
+          "shadowball",
+          "willowisp",
+          "slackoff"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Crown",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "boosterenergy",
+        "nature": "Timid",
+        "evs": "84 HP / 172 SpA / 252 Spe",
+        "moves": [
+          "tachyoncutter",
+          "expandingforce",
+          "protect",
+          "terablast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Weezing",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "neutralizinggas",
+        "item": "sitrusberry",
+        "nature": "Calm",
+        "evs": "252 HP / 4 SpA / 252 SpD",
+        "moves": [
+          "protect",
+          "willowisp",
+          "taunt",
+          "sludgebomb"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Goodra-Hisui",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sapsipper",
+        "item": "leftovers",
+        "nature": "Impish",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "bodypress",
+          "heavyslam",
+          "protect",
+          "shelter"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Thundurus-Therian",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "voltabsorb",
+        "item": "choicescarf",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "wildboltstorm",
+          "voltswitch",
+          "electroweb",
+          "terablast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Suicune",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "innerfocus",
+        "item": "leftovers",
+        "nature": "Calm",
+        "evs": "252 HP / 68 Def / 4 SpA / 116 SpD / 68 Spe",
+        "moves": [
+          "scald",
+          "tailwind",
+          "snarl",
+          "icywind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Pawmot",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "voltabsorb",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "revivalblessing",
+          "fakeout",
+          "closecombat",
+          "doubleshock"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Basculegion",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "swiftswim",
+        "item": "lifeorb",
+        "nature": "Adamant",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "lastrespects",
+          "wavecrash",
+          "aquajet",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kommo-o",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "overcoat",
+        "item": "leftovers",
+        "nature": "Naive",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "protect",
+          "bodypress",
+          "irondefense",
+          "ironhead"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Raichu-Alola",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "surgesurfer",
+        "item": "focussash",
+        "nature": "Hasty",
+        "evs": "252 Atk / 4 SpA / 252 Spe",
+        "moves": [
+          "nuzzle",
+          "endeavor",
+          "fakeout",
+          "faketears"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Mimikyu",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "disguise",
+        "item": "mentalherb",
+        "nature": "Impish",
+        "evs": "252 HP / 156 Def / 100 SpD",
+        "moves": [
+          "trickroom",
+          "shadowsneak",
+          "willowisp",
+          "playrough"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Regigigas",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "slowstart",
+        "item": "lifeorb",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "knockoff",
+          "wideguard",
+          "protect",
+          "crushgrip"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sandy Shocks",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "boosterenergy",
+        "nature": "Timid",
+        "evs": "52 HP / 204 SpA / 252 Spe",
+        "moves": [
+          "earthpower",
+          "protect",
+          "thunderbolt",
+          "electroweb"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Excadrill",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sandrush",
+        "item": "focussash",
+        "nature": "Adamant",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "ironhead",
+          "protect",
+          "highhorsepower",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Scizor",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "technician",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "bulletpunch",
+          "uturn",
+          "protect",
+          "closecombat"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Flamigo",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "costar",
+        "item": "whiteherb",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "closecombat",
+          "wideguard",
+          "acrobatics",
+          "bravebird"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Necrozma-Dusk-Mane",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prismarmor",
+        "item": "clearamulet",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk",
+        "moves": [
+          "sunsteelstrike",
+          "protect",
+          "photongeyser",
+          "trickroom"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Alcremie",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sweetveil",
+        "item": "sitrusberry",
+        "nature": "Relaxed",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "decorate",
+          "protect",
+          "dazzlinggleam",
+          "encore"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Dialga-Origin",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "telepathy",
+        "item": "adamantcrystal",
+        "nature": "Quiet",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "flashcannon",
+          "trickroom",
+          "protect",
+          "dracometeor"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Gyarados",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "sitrusberry",
+        "nature": "Adamant",
+        "evs": "236 HP / 36 Atk / 116 Def / 108 SpD / 12 Spe",
+        "moves": [
+          "waterfall",
+          "thunderwave",
+          "taunt",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Giratina-Origin",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "griseouscore",
+        "nature": "Modest",
+        "evs": "220 HP / 140 SpA / 148 Spe",
+        "moves": [
+          "protect",
+          "shadowsneak",
+          "poltergeist",
+          "calmmind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Dragapult",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "clearbody",
+        "item": "choiceband",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "dragondarts",
+          "phantomforce",
+          "uturn",
+          "terablast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Boulder",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "choiceband",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "mightycleave",
+          "protect",
+          "sacredsword",
+          "psychocut"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Palkia-Origin",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "telepathy",
+        "item": "lustrousglobe",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "spacialrend",
+          "protect",
+          "hydropump",
+          "earthpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sylveon",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "pixilate",
+        "item": "throatspray",
+        "nature": "Quiet",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "hypervoice",
+          "protect",
+          "quickattack",
+          "terablast"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Mamoswine",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "oblivious",
+        "item": "lifeorb",
+        "nature": "Adamant",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "iceshard",
+          "iciclecrash",
+          "protect",
+          "highhorsepower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Enamorus-Therian",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "overcoat",
+        "item": "choicespecs",
+        "nature": "Quiet",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "earthpower",
+          "moonblast",
+          "dazzlinggleam",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Zoroark-Hisui",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "illusion",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "hypervoice",
+          "bittermalice",
+          "shadowball",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Reshiram",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "turboblaze",
+        "item": "assaultvest",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "heatwave",
+          "blueflare",
+          "dracometeor",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Swampert",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "torrent",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "196 HP / 92 Atk / 76 Def / 140 SpD / 4 Spe",
+        "moves": [
+          "wideguard",
+          "liquidation",
+          "highhorsepower",
+          "yawn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Typhlosion-Hisui",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "frisk",
+        "item": "choicescarf",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "eruption",
+          "shadowball",
+          "heatwave",
+          "overheat"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Pachirisu",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "voltabsorb",
+        "item": "sitrusberry",
+        "nature": "Impish",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "followme",
+          "nuzzle",
+          "helpinghand",
+          "superfang"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Indeedee",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "psychicsurge",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "expandingforce",
+          "dazzlinggleam",
+          "trickroom",
+          "imprison"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Metagross",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "clearbody",
+        "item": "assaultvest",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "bulletpunch",
+          "psychicfangs",
+          "protect",
+          "explosion"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Charizard",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "solarpower",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "heatwave",
+          "protect",
+          "solarbeam",
+          "airslash"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Solgaleo",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "fullmetalbody",
+        "item": "weaknesspolicy",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "sunsteelstrike",
+          "psychicfangs",
+          "protect",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Iron Leaves",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "quarkdrive",
+        "item": "clearamulet",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "psyblade",
+          "leafblade",
+          "protect",
+          "sacredsword"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Empoleon",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "competitive",
+        "item": "assaultvest",
+        "nature": "Modest",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "flashcannon",
+          "protect",
+          "hydropump",
+          "icebeam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Latias",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "rockyhelmet",
+        "nature": "Timid",
+        "evs": "252 HP / 60 Def / 4 SpA / 4 SpD / 188 Spe",
+        "moves": [
+          "mistball",
+          "tailwind",
+          "psychup",
+          "storedpower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Toxapex",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "regenerator",
+        "item": "leftovers",
+        "nature": "Bold",
+        "evs": "252 HP / 92 Def / 164 SpD",
+        "moves": [
+          "toxic",
+          "wideguard",
+          "banefulbunker",
+          "haze"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Articuno-Galar",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "competitive",
+        "item": "covertcloak",
+        "nature": "Modest",
+        "evs": "4 Def / 252 SpA / 252 Spe",
+        "moves": [
+          "freezingglare",
+          "protect",
+          "trickroom",
+          "tailwind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Mewtwo",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unnerve",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "protect",
+          "expandingforce",
+          "psystrike",
+          "aurasphere"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Zapdos",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "static",
+        "item": "rockyhelmet",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "hurricane",
+          "tailwind",
+          "thunderbolt",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Rhyperior",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "lightningrod",
+        "item": "assaultvest",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "rockslide",
+          "highhorsepower",
+          "protect",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Hariyama",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "guts",
+        "item": "flameorb",
+        "nature": "Brave",
+        "evs": "252 Atk / 4 Def / 252 SpD",
+        "moves": [
+          "fakeout",
+          "closecombat",
+          "wideguard",
+          "knockoff"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Great Tusk",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "protosynthesis",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "closecombat",
+          "headlongrush",
+          "earthquake",
+          "icespinner"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Dusclops",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "frisk",
+        "item": "eviolite",
+        "nature": "Calm",
+        "evs": "236 HP / 108 Def / 164 SpD",
+        "moves": [
+          "trickroom",
+          "nightshade",
+          "willowisp",
+          "painsplit"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Giratina",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "pressure",
+        "item": "leftovers",
+        "nature": "Calm",
+        "evs": "252 HP / 68 Def / 92 SpA / 84 SpD / 12 Spe",
+        "moves": [
+          "protect",
+          "calmmind",
+          "dragonpulse",
+          "hex"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Garchomp",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "roughskin",
+        "item": "choicescarf",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "earthquake",
+          "rockslide",
+          "dragonclaw",
+          "swordsdance"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Corviknight",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "mirrorarmor",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "252 HP / 4 Atk / 252 SpD",
+        "moves": [
+          "bodypress",
+          "roost",
+          "irondefense",
+          "bravebird"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Frosmoth",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "icescales",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "252 SpA / 252 Spe",
+        "moves": [
+          "wideguard",
+          "quiverdance",
+          "icebeam",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Clodsire",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "waterabsorb",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "252 HP / 4 Atk / 252 SpD",
+        "moves": [
+          "recover",
+          "toxic",
+          "protect",
+          "highhorsepower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Snorlax",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "thickfat",
+        "item": "leftovers",
+        "nature": "Impish",
+        "evs": "164 HP / 252 Def / 92 SpD",
+        "moves": [
+          "protect",
+          "bellydrum",
+          "curse",
+          "highhorsepower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Orthworm",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "eartheater",
+        "item": "sitrusberry",
+        "nature": "Impish",
+        "evs": "212 HP / 4 Atk / 36 Def / 252 SpD / 4 Spe",
+        "moves": [
+          "bodypress",
+          "irondefense",
+          "heavyslam",
+          "shedtail"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Rhydon",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "lightningrod",
+        "item": "eviolite",
+        "nature": "Sassy",
+        "evs": "252 HP / 4 Atk / 252 SpD",
+        "moves": [
+          "protect",
+          "highhorsepower",
+          "rockslide",
+          "heavyslam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Sceptile",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unburden",
+        "item": "focussash",
+        "nature": "Naive",
+        "evs": "4 Atk / 252 SpA / 252 Spe",
+        "moves": [
+          "endeavor",
+          "grasspledge",
+          "quickguard",
+          "shedtail"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Serperior",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "contrary",
+        "item": "assaultvest",
+        "nature": "Timid",
+        "evs": "244 HP / 4 Def / 4 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "leafstorm",
+          "terablast",
+          "dragonpulse",
+          "gigadrain"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Slowking",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "oblivious",
+        "item": "sitrusberry",
+        "nature": "Quiet",
+        "evs": "252 HP / 172 SpA / 84 SpD",
+        "moves": [
+          "trickroom",
+          "scald",
+          "chillyreception",
+          "healpulse"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Baxcalibur",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "thermalexchange",
+        "item": "clearamulet",
+        "nature": "Adamant",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "protect",
+          "glaiverush",
+          "iceshard",
+          "iciclespear"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Fezandipiti",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "toxicchain",
+        "item": "covertcloak",
+        "nature": "Timid",
+        "evs": "140 HP / 4 Def / 116 SpA / 4 SpD / 244 Spe",
+        "moves": [
+          "icywind",
+          "dazzlinggleam",
+          "tailwind",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Pincurchin",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "electricsurge",
+        "item": "magnet",
+        "nature": "Brave",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "suckerpunch",
+          "protect",
+          "thunderbolt",
+          "liquidation"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Palafin",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "zerotohero",
+        "item": "mysticwater",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "jetpunch",
+          "wavecrash",
+          "closecombat",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Meowscarada",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "overgrow",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "flowertrick",
+          "knockoff",
+          "protect",
+          "suckerpunch"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Blastoise",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "raindish",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "252 HP / 68 Def / 188 SpD",
+        "moves": [
+          "fakeout",
+          "yawn",
+          "helpinghand",
+          "flipturn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Scovillain",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "chlorophyll",
+        "item": "focussash",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "spicyextract",
+          "ragepowder",
+          "protect",
+          "overheat"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Shiftry",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "windrider",
+        "item": "focussash",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "fakeout",
+          "leafblade",
+          "knockoff",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Articuno",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "snowcloak",
+        "item": "choicespecs",
+        "nature": "Modest",
+        "evs": "252 HP / 44 Def / 196 SpA / 4 SpD / 12 Spe",
+        "moves": [
+          "blizzard",
+          "freezedry",
+          "sheercold",
+          "icebeam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Politoed",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "drizzle",
+        "item": "sitrusberry",
+        "nature": "Bold",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "protect",
+          "muddywater",
+          "helpinghand",
+          "icywind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Jumpluff",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "chlorophyll",
+        "item": "covertcloak",
+        "nature": "Timid",
+        "evs": "252 HP / 4 SpA / 252 Spe",
+        "moves": [
+          "tailwind",
+          "sleeppowder",
+          "pollenpuff",
+          "encore"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Malamar",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "contrary",
+        "item": "leftovers",
+        "nature": "Careful",
+        "evs": "252 HP / 132 Def / 100 SpD / 20 Spe",
+        "moves": [
+          "superpower",
+          "topsyturvy",
+          "protect",
+          "knockoff"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Pikachu",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "lightningrod",
+        "item": "lightball",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "fakeout",
+          "feint",
+          "nuzzle",
+          "endeavor"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Arcanine",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "sitrusberry",
+        "nature": "Jolly",
+        "evs": "52 HP / 252 Atk / 4 Def / 4 SpD / 196 Spe",
+        "moves": [
+          "flareblitz",
+          "extremespeed",
+          "willowisp",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Electabuzz",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "static",
+        "item": "eviolite",
+        "nature": "Timid",
+        "evs": "212 HP / 164 Def / 132 Spe",
+        "moves": [
+          "followme",
+          "electroweb",
+          "helpinghand",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Drifblim",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "unburden",
+        "item": "electricseed",
+        "nature": "Timid",
+        "evs": "252 HP / 4 SpD / 252 Spe",
+        "moves": [
+          "tailwind",
+          "willowisp",
+          "shadowball",
+          "icywind"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Torterra",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "shellarmor",
+        "item": "sitrusberry",
+        "nature": "Quiet",
+        "evs": "116 HP / 20 Def / 244 SpA / 124 SpD",
+        "moves": [
+          "wideguard",
+          "headlongrush",
+          "woodhammer",
+          "curse"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Rotom-Wash",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "sitrusberry",
+        "nature": "Modest",
+        "evs": "172 HP / 44 Def / 172 SpA / 116 SpD / 4 Spe",
+        "moves": [
+          "willowisp",
+          "hydropump",
+          "protect",
+          "thunderbolt"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Ludicolo",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "swiftswim",
+        "item": "assaultvest",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "fakeout",
+          "icywind",
+          "energyball",
+          "weatherball"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Azumarill",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "hugepower",
+        "item": "sitrusberry",
+        "nature": "Adamant",
+        "evs": "252 HP / 252 Atk / 4 SpD",
+        "moves": [
+          "playrough",
+          "aquajet",
+          "liquidation",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Salamence",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "intimidate",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "252 SpA / 4 SpD / 252 Spe",
+        "moves": [
+          "tailwind",
+          "dracometeor",
+          "airslash",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Terrakion",
+    "roles": {
+      "goodstuff": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "justified",
+        "item": "covertcloak",
+        "nature": "Jolly",
+        "evs": "84 HP / 124 Atk / 76 Def / 4 SpD / 220 Spe",
+        "moves": [
+          "rockslide",
+          "protect",
+          "sacredsword",
+          "upperhand"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Registeel",
+    "roles": {
+      "goodstuff": 1,
+      "late_game_cleaner": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "clearbody",
+        "item": "leftovers",
+        "nature": "Relaxed",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "bodypress",
+          "irondefense",
+          "protect",
+          "heavyslam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Magmar",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "flamebody",
+        "item": "eviolite",
+        "nature": "Bold",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "followme",
+          "protect",
+          "willowisp",
+          "flamethrower"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Trapinch",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "arenatrap",
+        "item": "focussash",
+        "nature": "Brave",
+        "evs": "244 HP / 252 Atk / 12 SpD",
+        "moves": [
+          "protect",
+          "feint",
+          "fissure",
+          "earthquake"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Palkia",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "telepathy",
+        "item": "lustrousorb",
+        "nature": "Modest",
+        "evs": "252 HP / 4 Def / 252 SpA",
+        "moves": [
+          "spacialrend",
+          "trickroom",
+          "hydropump",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kyurem-Black",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "teravolt",
+        "item": "loadeddice",
+        "nature": "Jolly",
+        "evs": "4 HP / 252 Atk / 252 Spe",
+        "moves": [
+          "iciclespear",
+          "fusionbolt",
+          "protect",
+          "scaleshot"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Hydrapple",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "supersweetsyrup",
+        "item": "assaultvest",
+        "nature": "Modest",
+        "evs": "252 HP / 252 SpA / 4 SpD",
+        "moves": [
+          "ficklebeam",
+          "pollenpuff",
+          "earthpower",
+          "protect"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Kleavor",
+    "roles": {
+      "goodstuff": 1,
+      "physical_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "sharpness",
+        "item": "clearamulet",
+        "nature": "Jolly",
+        "evs": "252 Atk / 4 SpD / 252 Spe",
+        "moves": [
+          "stoneaxe",
+          "xscissor",
+          "protect",
+          "uturn"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Exeggutor",
+    "roles": {
+      "goodstuff": 1,
+      "special_sweeper": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "chlorophyll",
+        "item": "lifeorb",
+        "nature": "Timid",
+        "evs": "4 HP / 252 SpA / 252 Spe",
+        "moves": [
+          "expandingforce",
+          "solarbeam",
+          "gravity",
+          "hypnosis"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Klefki",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "prankster",
+        "item": "lightclay",
+        "nature": "Calm",
+        "evs": "252 HP / 76 Def / 180 SpD",
+        "moves": [
+          "reflect",
+          "lightscreen",
+          "thunderwave",
+          "dazzlinggleam"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Vikavolt",
+    "roles": {
+      "goodstuff": 1,
+      "wallbreaker": 1,
+      "late_game_cleaner": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "levitate",
+        "item": "lifeorb",
+        "nature": "Quiet",
+        "evs": "244 HP / 252 SpA / 12 SpD",
+        "moves": [
+          "bugbuzz",
+          "thunderbolt",
+          "protect",
+          "energyball"
+        ],
+        "teraType": "None"
+      }
+    }
+  },
+  {
+    "name": "Stonjourner",
+    "roles": {
+      "goodstuff": 1,
+      "support": 1
+    },
+    "archetypes": [
+      "goodstuff"
+    ],
+    "builds": {
+      "goodstuff": {
+        "ability": "powerspot",
+        "item": "focussash",
+        "nature": "Impish",
+        "evs": "252 HP / 252 Def / 4 SpD",
+        "moves": [
+          "wideguard",
+          "protect",
+          "rockslide",
+          "bodypress"
+        ],
+        "teraType": "None"
+      }
+    }
+  }
+]

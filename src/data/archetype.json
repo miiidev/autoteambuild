@@ -1,0 +1,96 @@
+{
+  "rain": {
+    "required": [
+      "rain_setter",
+      "rain_abuser"
+    ],
+    "preferred": [
+      "tailwind",
+      "redirection",
+      "pivot",
+      "fake_out",
+      "intimidate"
+    ]
+  },
+
+  "sun": {
+    "required": [
+      "sun_setter",
+      "sun_abuser"
+    ],
+    "preferred": [
+      "speed_control",
+      "tailwind",
+      "physical_sweeper"
+    ]
+  },
+
+  "sand": {
+    "required": [
+      "sand_setter",
+      "sand_abuser"
+    ],
+    "preferred": [
+      "pivot",
+      "support"
+    ]
+  },
+
+  "snow": {
+    "required": [
+      "snow_setter",
+      "snow_abuser"
+    ],
+    "preferred": [
+      "support",
+      "speed_control"
+    ]
+  },
+
+  "trick_room": {
+    "required": [
+      "trick_room_setter",
+      "late_game_cleaner"
+    ],
+    "preferred": [
+      "redirection",
+      "fake_out",
+      "support"
+    ]
+  },
+
+  "tailwind_balance": {
+    "required": [
+      "tailwind"
+    ],
+    "preferred": [
+      "pivot",
+      "support",
+      "physical_sweeper",
+      "special_sweeper"
+    ]
+  },
+
+  "balance": {
+    "required": [
+      "pivot",
+      "support"
+    ],
+    "preferred": [
+      "physical_sweeper",
+      "special_sweeper",
+      "speed_control"
+    ]
+  },
+
+  "goodstuff": {
+    "required": [],
+    "preferred": [
+      "pivot",
+      "support",
+      "physical_sweeper",
+      "special_sweeper",
+      "speed_control"
+    ]
+  }
+}

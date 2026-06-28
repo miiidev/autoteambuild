@@ -1,0 +1,21 @@
+{
+  "roleAbilities": {
+    "drizzle": { "rain_setter": 1.0 },
+    "drought": { "sun_setter": 1.0 },
+    "stamina": { "rain_abuser": 0.8 },
+    "intimidate": { "intimidate": 1.0, "support": 0.5 },
+    "grassy-surge": { "fake_out": 0.5, "pivot": 0.5 },
+    "armor-tail": { "trick_room_setter": 0.5, "support": 0.5 },
+    "inner-focus": { "physical_sweeper": 0.8 }
+  },
+  "archetypeMoveKeywords": {
+    "trick-room": { "trick_room_setter": 1.0 },
+    "tailwind": { "tailwind": 1.0 },
+    "fake-out": { "fake_out": 1.0 },
+    "rage-powder": { "redirection": 1.0 },
+    "follow-me": { "redirection": 1.0 },
+    "u-turn": { "pivot": 0.8 },
+    "parting-shot": { "pivot": 1.0 },
+    "volt-switch": { "pivot": 0.8 }
+  }
+}
