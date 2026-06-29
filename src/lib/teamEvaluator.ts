@@ -1,3 +1,4 @@
+// src/lib/teamEvaluator.ts
 import pokemonData from "../data/pokemon.json";
 
 export type PokemonBuild = {
@@ -6,121 +7,59 @@ export type PokemonBuild = {
   nature: string;
   evs: string;
   moves: string[];
-  teraType?: string;
+  teraType: string;
 };
 
 export type Pokemon = {
   name: string;
   types: string[];
-  roles: Partial<Record<string, number>>;
   archetypes: string[];
-  restricted_legendary?: boolean;
+  roles: Record<string, number>;
+  builds: Record<string, PokemonBuild>;
   requires_item?: string;
-  builds?: Partial<Record<string, PokemonBuild>>;
 };
 
-const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
-  (pokemonData as unknown as Pokemon[]).map((p) => [
-    p.name.toLowerCase(),
-    p
-  ])
+// 🌟 UPDATE: Unified Single Source of Truth
+// Hydrate the baseline competitive map dynamically from your local JSON database
+export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
+  (pokemonData as any[]).map((p) => {
+    return [
+      p.name.toLowerCase(),
+      {
+        name: p.name,
+        types: p.types || ["Normal"],
+        roles: p.roles || { goodstuff: 1 },        // Safe fallback
+        archetypes: p.archetypes || ["goodstuff"], // Safe fallback
+        builds: p.builds || {}                     // Empty object fallback for optimizer injection
+      }
+    ];
+  })
 );
 
-const REQUIRED_CORE_ROLES = [
-  "fake_out",
-  "tailwind",
-  "trick_room_setter",
-  "redirection",
-  "pivot",
-  "intimidate",
-  "speed_control"
-];
-
-const OFFENSIVE_ROLES = [
-  "physical_sweeper",
-  "special_sweeper",
-  "wallbreaker",
-  "late_game_cleaner"
-];
-
-const SUPPORT_ROLES = [
-  "support",
-  "redirection",
-  "fake_out",
-  "intimidate",
-  "pivot"
-];
-
-const SPEED_ROLES = [
-  "tailwind",
-  "trick_room_setter",
-  "speed_control"
-];
-
+/**
+ * Structural macro evaluation focusing purely on stat checks and defensive type coverage.
+ * (Micro-synergy like weather and Trick Room is handled by teamOptimizer.ts)
+ */
 export function evaluateTeam(team: string[]) {
-  const roleCounts: Record<string, number> = {};
+  let score = 100; // Starting baseline evaluation score
+  const uniqueTypes = new Set<string>();
 
-  const pokemons = team
-    .map((name) => pokemonMap[name.toLowerCase()])
-    .filter(Boolean) as Pokemon[];
+  for (const name of team) {
+    const pData = pokemonMap[name.toLowerCase()];
+    if (!pData) continue;
 
-  // aggregate roles
-  for (const p of pokemons) {
-    for (const [role, weight] of Object.entries(p.roles || {})) {
-      roleCounts[role] = (roleCounts[role] || 0) + (weight ?? 0);
-    }
+    // Collect all unique typings present on this core combination
+    pData.types.forEach(t => uniqueTypes.add(t.toLowerCase()));
   }
 
-  let score = 100;
-
-  // missing core roles penalty
-  let missingCore = 0;
-
-  for (const role of REQUIRED_CORE_ROLES) {
-    if ((roleCounts[role] || 0) === 0) {
-      missingCore++;
-    }
-  }
-
-  score -= missingCore * 10;
-
-  // balance checks
-  const offense = OFFENSIVE_ROLES.reduce(
-    (a, r) => a + (roleCounts[r] || 0),
-    0
-  );
-
-  const support = SUPPORT_ROLES.reduce(
-    (a, r) => a + (roleCounts[r] || 0),
-    0
-  );
-
-  const speed = SPEED_ROLES.reduce(
-    (a, r) => a + (roleCounts[r] || 0),
-    0
-  );
-
-  if (offense > 10) score -= 10;
-  if (support === 0) score -= 15;
-  if (speed === 0) score -= 20;
-
-  // 🛡️ NEW: VGC Restricted Legendary Rule Check
-  // Official formats permit a maximum of ONE Restricted Uber per team.
-  const restrictedCount = pokemons.filter((p) => p.restricted_legendary).length;
-  if (restrictedCount > 2) { 
-    // Drop the score significantly to prune this candidate branch from the search tree
-    score -= 200;
-  }
+  // Reward diverse typing coverage to prevent massive structural weaknesses
+  score += uniqueTypes.size * 10;
 
   return {
-    // Keep raw score un-clamped here so Beam Search can rank a legal bad team (0) higher than an illegal team (-100)
-    score: Math.round(score),
+    score,
     breakdown: {
-      missingCore,
-      offense,
-      support,
-      speed,
-      restrictedCount
+      uniqueTypesCount: uniqueTypes.size,
+      typesPresent: Array.from(uniqueTypes)
     }
   };
 }

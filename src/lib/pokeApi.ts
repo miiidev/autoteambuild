@@ -1,70 +1,51 @@
 // src/lib/pokeApi.ts
 
-export interface LiveGameData {
-    types: string[];
-    sprite: string;
-    stats: { name: string; base_stat: number }[];
+export type LiveGameData = {
     abilities: string[];
-}
+    types: string[];
+    stats: { name: string; base_stat: number }[];
+};
 
-export interface PokedexListItem {
-    name: string;
-    url: string;
-}
+// 🌟 UPDATE: In-memory cache to prevent API spam on a 50-slot workbench
+const apiCache = new Map<string, LiveGameData>();
 
-const pokeCache = new Map<string, LiveGameData>();
-
-export async function fetchPokemonGameData(pokemonName: string): Promise<LiveGameData | null> {
-    // Format name to match PokeAPI specifications (e.g. "Chien-Pao" -> "chien-pao")
-    const formattedName = pokemonName.toLowerCase().trim().replace(/\s+/g, "-");
-
-    if (pokeCache.has(formattedName)) {
-        return pokeCache.get(formattedName)!;
-    }
-
+/**
+ * Fetches dynamic, real-time data from PokeAPI and normalizes it for the optimizer
+ */
+export async function fetchPokemonGameData(name: string): Promise<LiveGameData | null> {
     try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${formattedName}`);
-        if (!response.ok) throw new Error(`Not found in PokeAPI database: ${pokemonName}`);
+        const cleanedName = name.toLowerCase().trim().replace(/[\s_]+/g, "-");
+        
+        // Return from cache if we already fetched it this session
+        if (apiCache.has(cleanedName)) {
+            return apiCache.get(cleanedName)!;
+        }
+
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${cleanedName}`);
+        
+        if (!response.ok) {
+            console.warn(`PokeAPI fetch failed for: ${name}`);
+            return null;
+        }
 
         const data = await response.json();
 
-        const gameData: LiveGameData = {
-            // Extracts and capitalizes typing records cleanly
-            types: data.types.map((t: any) => t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)),
-            // Captures default sharp 2D official front sprite asset
-            sprite: data.sprites.front_default || "",
-            // Passes complete baseline values over for stat-bias fallback generation
-            stats: data.stats.map((s: any) => ({
-                name: s.stat.name,
-                base_stat: s.base_stat
-            })),
-            // Extracts all standard/hidden abilities assigned to the creature
-            abilities: data.abilities.map((a: any) => a.ability.name)
-        };
+        // Flatten attributes into simple lowercase arrays for our synergy scripts
+        const abilities = data.abilities.map((a: any) => a.ability.name.toLowerCase());
+        const types = data.types.map((t: any) => t.type.name.toLowerCase());
+        const stats = data.stats.map((s: any) => ({
+            name: s.stat.name.toLowerCase(), 
+            base_stat: s.base_stat
+        }));
 
-        pokeCache.set(formattedName, gameData);
-        return gameData;
+        const resultData = { abilities, types, stats };
+        
+        // Save to cache for next time
+        apiCache.set(cleanedName, resultData);
+
+        return resultData;
     } catch (error) {
-        console.warn(`Failed to resolve dynamic game metrics for: ${pokemonName}`, error);
+        console.error(`Error fetching game data for ${name}:`, error);
         return null;
-    }
-}
-
-export async function fetchAllPokemonNames(): Promise<string[]> {
-    try {
-        // limit=1025 captures all canonical species across Generations 1 through 9
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025");
-        if (!response.ok) throw new Error("Failed to pull directory");
-
-        const data = await response.json();
-
-        // Map the results array to return an array of strings with proper VGC casing conventions
-        return data.results.map((p: any) => {
-            // Capitalize names nicely for UI elements (e.g. "bulbasaur" -> "Bulbasaur")
-            return p.name.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("-");
-        });
-    } catch (error) {
-        console.error("Failed to populate master grid registry", error);
-        return []; // Safe array fallback layout so UI doesn't drop dead
     }
 }

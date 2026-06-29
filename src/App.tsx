@@ -3,361 +3,408 @@ import { useState } from "react";
 import PokemonGrid from "./components/PokemonGrid";
 import { optimizeTeam, type OptimizedTeamResult } from "./lib/teamOptimizer";
 
+// 🎨 GOAL 4: 18-Element Thematic UI Mapping
+const TYPE_COLORS: Record<string, { bg: string; border: string; emoji: string }> = {
+  Normal: { bg: "bg-[#A8A77A]", border: "border-[#8A8A59]", emoji: "⚪" },
+  Fire: { bg: "bg-[#EE8130]", border: "border-[#C66320]", emoji: "🔥" },
+  Water: { bg: "bg-[#6390F0]", border: "border-[#4A7AD6]", emoji: "💧" },
+  Electric: { bg: "bg-[#F7D02C]", border: "border-[#D4AF21]", emoji: "⚡" },
+  Grass: { bg: "bg-[#7AC74C]", border: "border-[#5E9E3A]", emoji: "🌿" },
+  Ice: { bg: "bg-[#96D9D6]", border: "border-[#74B3B0]", emoji: "❄️" },
+  Fighting: { bg: "bg-[#C22E28]", border: "border-[#99221D]", emoji: "🥊" },
+  Poison: { bg: "bg-[#A33EA1]", border: "border-[#7C2D7A]", emoji: "☠️" },
+  Ground: { bg: "bg-[#E2BF65]", border: "border-[#B89A50]", emoji: "⛰️" },
+  Flying: { bg: "bg-[#A98FF3]", border: "border-[#856DCC]", emoji: "💨" },
+  Psychic: { bg: "bg-[#F95587]", border: "border-[#C9426B]", emoji: "🔮" },
+  Bug: { bg: "bg-[#A6B91A]", border: "border-[#829114]", emoji: "🐛" },
+  Rock: { bg: "bg-[#B6A136]", border: "border-[#8F7E2A]", emoji: "🪨" },
+  Ghost: { bg: "bg-[#735797]", border: "border-[#574173]", emoji: "👻" },
+  Dragon: { bg: "bg-[#6F35FC]", border: "border-[#5629C4]", emoji: "🐉" },
+  Dark: { bg: "bg-[#705746]", border: "border-[#544134]", emoji: "🌙" },
+  Steel: { bg: "bg-[#B7B7CE]", border: "border-[#9292A6]", emoji: "⚙️" },
+  Fairy: { bg: "bg-[#D685AD]", border: "border-[#B06B8D]", emoji: "✨" },
+};
+
+// 🌟 GOAL 3: 3D Sprite Helper
+const getSpriteUrl = (name: string) => {
+  const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return `https://play.pokemonshowdown.com/sprites/ani/${cleanName}.gif`;
+};
+
+// Smart fallback to guess a Move's Type based on name if we don't have a DB for it
+const guessMoveType = (moveName: string): string => {
+  const name = moveName.toLowerCase();
+  if (name.includes("fire") || name.includes("flame") || name.includes("heat") || name.includes("flare")) return "Fire";
+  if (name.includes("water") || name.includes("hydro") || name.includes("aqua") || name.includes("surf")) return "Water";
+  if (name.includes("thunder") || name.includes("volt") || name.includes("electro") || name.includes("zap")) return "Electric";
+  if (name.includes("grass") || name.includes("leaf") || name.includes("wood") || name.includes("solar")) return "Grass";
+  if (name.includes("ice") || name.includes("blizzard") || name.includes("frost") || name.includes("snow")) return "Ice";
+  if (name.includes("draco") || name.includes("dragon") || name.includes("outrage")) return "Dragon";
+  if (name.includes("dark") || name.includes("crunch") || name.includes("sucker") || name.includes("foul")) return "Dark";
+  if (name.includes("moon") || name.includes("fairy") || name.includes("play rough") || name.includes("dazzling")) return "Fairy";
+  if (name.includes("psychic") || name.includes("zen") || name.includes("mind") || name.includes("psyshock")) return "Psychic";
+  if (name.includes("shadow") || name.includes("ghost") || name.includes("phantom") || name.includes("poltergeist")) return "Ghost";
+  if (name.includes("protect") || name.includes("fake out") || name.includes("extreme speed")) return "Normal";
+  return "Normal"; // Default fallback
+};
+
 export default function App() {
   const [sandboxBox, setSandboxBox] = useState<string[]>([]);
   const [optimizedStrategies, setOptimizedStrategies] = useState<OptimizedTeamResult[]>([]);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
-  // Phase 2 State: Tracks which Pokémon is currently being inspected in the modal
   const [selectedInspectPokemon, setSelectedInspectPokemon] = useState<any | null>(null);
 
-  // Adds a unique Pokemon selection to our active drafting box pool
   const handleAddPokemon = (name: string) => {
     setErrorMessage(null);
     if (sandboxBox.includes(name)) {
       setErrorMessage(`${name} is already inside your sandbox workbench box.`);
       return;
     }
-    if (sandboxBox.length >= 12) {
-      setErrorMessage("Your workbench box is full! Max limit is 12 entries.");
+    if (sandboxBox.length >= 50) {
+      setErrorMessage("Your workbench box is full! Max limit is 50 entries.");
       return;
     }
     setSandboxBox([...sandboxBox, name]);
   };
 
-  // Removes a drafted element from the active workbench box pool
   const handleRemovePokemon = (name: string) => {
     setSandboxBox(sandboxBox.filter((p) => p !== name));
     setErrorMessage(null);
   };
 
-  // Clears the workbench to draft completely fresh
   const handleClearBox = () => {
     setSandboxBox([]);
     setOptimizedStrategies([]);
     setErrorMessage(null);
   };
 
-  // Triggers the tactical Beam Search Optimizer Engine asynchronously
   const handleRunOptimization = async () => {
     if (sandboxBox.length < 6) {
-      setErrorMessage("You must select at least 6 Pokémon to initialize calculation vectors.");
+      setErrorMessage("You must select at least 6 Pokémon to initialize the Champions algorithm.");
       return;
     }
 
+    setIsOptimizing(true);
+    setErrorMessage(null);
     try {
-      setIsOptimizing(true);
-      setErrorMessage(null);
       const results = await optimizeTeam(sandboxBox);
       setOptimizedStrategies(results);
     } catch (err: any) {
-      setErrorMessage(err.message || "An unexpected optimization failure occurred.");
+      setErrorMessage(err.message || "An error occurred during Beam Search optimization.");
     } finally {
       setIsOptimizing(false);
     }
   };
 
-  // PHASE 2: Export to Pokémon Showdown Format
-  const handleExportToShowdown = (team: any[]) => {
-    const exportText = team.map(pokemon => {
-      if (!pokemon.build) return pokemon.name; 
-      
-      const p = pokemon.build;
-      let text = `${pokemon.name} @ ${p.item}\n`;
-      text += `Ability: ${p.ability}\n`;
-      text += `Level: 50\n`;
-      if (p.teraType) text += `Tera Type: ${p.teraType}\n`;
-      text += `EVs: ${p.evs}\n`;
-      text += `${p.nature} Nature\n`;
-      p.moves.forEach((move: string) => {
-        text += `- ${move}\n`;
-      });
-      return text;
-    }).join('\n\n');
-
-    navigator.clipboard.writeText(exportText);
-    alert("✅ Team copied to clipboard! You can now paste this into Pokémon Showdown.");
+  const exportShowdownText = (team: any[]) => {
+    const text = team
+      .map((p) => {
+        const build = p.build;
+        if (!build) return `${p.name} @ Leftovers\nAbility: Unknown\nEVs: 252 HP / 252 Spe\nHardy Nature\n- Protect`;
+        return `${p.name} @ ${build.item}\nAbility: ${build.ability}\nTera Type: ${build.teraType}\nEVs: ${build.evs}\n${build.nature} Nature\n${build.moves.map((m: string) => `- ${m}`).join("\n")}`;
+      })
+      .join("\n\n");
+    navigator.clipboard.writeText(text);
+    alert("Copied Champions Team to clipboard!");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-800 p-4 md:p-8 font-sans relative">
-      <header className="max-w-6xl mx-auto mb-6">
-        <h1 className="text-3xl font-black text-gray-900 tracking-tight">🏆 VGC Team Generator Sandbox</h1>
-        <p className="text-sm text-gray-500 mt-1">Phase 2: Advanced Strategy Tooling & Moveset UI Expansion</p>
-      </header>
-
-      <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
-        {/* LEFT SIDE PANEL: Master Pokedex Search Selection Grid Component */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
-          <PokemonGrid onSelect={handleAddPokemon} />
-
-          {/* DRAFT WORKBENCH DRAWER SECTION */}
-          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <div>
-                <h3 className="text-base font-bold text-gray-900">🧰 Your Sandbox Workbench</h3>
-                <p className="text-xs text-gray-400">({sandboxBox.length}/12 selected) Add 6 or more to run engine rulesets.</p>
-              </div>
-              {sandboxBox.length > 0 && (
-                <button
-                  onClick={handleClearBox}
-                  className="text-xs text-red-500 hover:text-red-700 font-medium hover:underline cursor-pointer"
-                >
-                  Clear Box
-                </button>
-              )}
-            </div>
-
-            {sandboxBox.length === 0 ? (
-              <div className="border-2 border-dashed border-gray-200 rounded-lg py-10 text-center text-sm text-gray-400">
-                Click species from the Pokédex selection grid above to fill your workbench.
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {sandboxBox.map((name) => (
-                  <span
-                    key={name}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 font-medium text-xs rounded-full"
-                  >
-                    {name}
-                    <button
-                      onClick={() => handleRemovePokemon(name)}
-                      className="hover:bg-blue-200 rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold cursor-pointer"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Trigger Calculation Vectors Button */}
+    <div className="min-h-screen bg-gray-100 p-4 font-sans text-gray-800">
+      <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* HEADER */}
+        <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight">Pokémon Champions Sandbox</h1>
+            <p className="text-blue-200 mt-1 text-sm font-medium">Phase 3: Live Meta Drafting & Synergy Analytics</p>
+          </div>
+          <div className="mt-4 md:mt-0 flex gap-3">
+            <button onClick={handleClearBox} className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-bold backdrop-blur-sm transition">
+              Clear Workbench
+            </button>
             <button
               onClick={handleRunOptimization}
               disabled={isOptimizing || sandboxBox.length < 6}
-              className={`w-full mt-5 py-3 rounded-lg text-white font-bold text-sm tracking-wide shadow-sm transition-all cursor-pointer ${isOptimizing || sandboxBox.length < 6
-                ? "bg-gray-300 cursor-not-allowed text-gray-500"
-                : "bg-blue-600 hover:bg-blue-700 active:scale-98"
-                }`}
+              className={`px-6 py-2 rounded-lg text-sm font-bold shadow-md transition ${
+                isOptimizing || sandboxBox.length < 6
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-yellow-400 hover:bg-yellow-300 text-yellow-900"
+              }`}
             >
-              {isOptimizing ? "🤖 Crunching Beam Search Trees..." : "🚀 Optimize VGC Tournament Teams"}
+              {isOptimizing ? "Running Beam Search..." : "Optimize Team"}
             </button>
-
-            {/* Dynamic Alert Banner Notifications */}
-            {errorMessage && (
-              <div className="mt-3 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-xs font-semibold">
-                ⚠️ {errorMessage}
-              </div>
-            )}
           </div>
-        </div>
+        </header>
 
-        {/* RIGHT SIDE PANEL: Optimization Results Rendering Viewports */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-900 text-white rounded-xl p-5 shadow-md h-full min-h-[400px]">
-            <h2 className="text-lg font-black tracking-tight mb-1 border-b border-gray-800 pb-2">📋 Recommended Core Compositions</h2>
+        {errorMessage && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-sm font-medium">
+            {errorMessage}
+          </div>
+        )}
 
-            {isOptimizing && (
-              <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-400">
-                <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-xs font-mono animate-pulse">Running heuristic archetype score vectors...</p>
-              </div>
-            )}
+        {/* --- 🌟 BOTH COLUMNS MATCH ROSTER HEIGHT (600px max layout container) 🌟 --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-[600px]">
+          {/* LEFT: Pokédex Grid */}
+          <div className="lg:col-span-2 h-[500px] lg:h-full overflow-y-auto bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <PokemonGrid onSelect={handleAddPokemon} />
+          </div>
 
-            {!isOptimizing && optimizedStrategies.length === 0 && (
-              <div className="flex flex-col items-center justify-center h-64 text-center text-gray-500 p-4">
-                <span className="text-3xl mb-2">⚖️</span>
-                <p className="text-xs">No active calculations loaded. Choose your team criteria and hit optimize to generate meta compositions!</p>
-              </div>
-            )}
-
-            {!isOptimizing && optimizedStrategies.map((strategy, idx) => (
-              <div key={strategy.archetype + idx} className="mb-6 last:mb-0 bg-gray-800/50 border border-gray-800 rounded-xl p-4">
-                
-                {/* PHASE 2: Export Button and Scores */}
-                <div className="flex justify-between items-center mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 bg-blue-900 text-blue-200 border border-blue-800 rounded text-[10px] font-bold uppercase tracking-wider">
-                      {strategy.archetype === "goodstuff" ? "Standard Balance Core" : `${strategy.archetype.replace("_", " ")} Archetype`}
-                    </span>
-                    <span className="text-xs font-mono font-bold px-2 py-0.5 bg-green-900/50 text-green-400 border border-green-800 rounded">
-                      Score: {strategy.score}
-                    </span>
-                  </div>
-                  <button 
-                    onClick={() => handleExportToShowdown(strategy.team)}
-                    className="text-[10px] bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded border border-gray-600 transition-colors cursor-pointer"
+          {/* RIGHT: Sandbox Workbench */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col h-[500px] lg:h-full overflow-hidden">
+            <h2 className="text-lg font-bold flex items-center gap-2 mb-4 shrink-0">
+              <span>🧰</span> Drafting Workbench ({sandboxBox.length}/50)
+            </h2>
+            
+            {/* Shortened inner frame with scroll management */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-3 flex-1 content-start overflow-y-auto pr-1 pb-2 custom-scrollbar">
+              {Array.from({ length: 50 }).map((_, i) => {
+                const pokemonName = sandboxBox[i];
+                return (
+                  <div
+                    key={i}
+                    onClick={() => pokemonName && handleRemovePokemon(pokemonName)}
+                    className={`relative h-24 rounded-xl border-2 flex items-center justify-center transition-all ${
+                      pokemonName
+                        ? "bg-blue-50 border-blue-400 cursor-pointer hover:bg-red-50 hover:border-red-400 shadow-inner group"
+                        : "bg-gray-50 border-dashed border-gray-300"
+                    }`}
                   >
-                    📋 Export
-                  </button>
-                </div>
-
-                {/* PHASE 2: Dynamic Grid Loop with Abilities and Badges */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {strategy.team.map((pokemon) => (
-                    <div
-                      key={pokemon.name}
-                      onClick={() => setSelectedInspectPokemon(pokemon)}
-                      className="p-3 bg-gray-900 rounded-lg border border-gray-700 hover:border-blue-500 hover:bg-gray-800 transition-colors text-center flex flex-col items-center cursor-pointer relative group"
-                    >
-                      {/* Auto-Generated Badge */}
-                      {pokemon.isAutoGenerated && (
-                        <span className="absolute top-2 right-2 flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500" title="Auto-Generated Build"></span>
+                    {pokemonName ? (
+                      <>
+                        <img 
+                          src={getSpriteUrl(pokemonName)} 
+                          alt={pokemonName} 
+                          className="max-h-14 z-10 pointer-events-none group-hover:scale-90 transition-transform"
+                        />
+                        {/* Hover Overlay for Deletion */}
+                        <div className="absolute inset-0 bg-red-500/80 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity z-20">
+                          <span className="text-white font-bold text-xs">REMOVE</span>
+                        </div>
+                        <span className="absolute bottom-1 w-full text-center text-[10px] font-bold text-blue-900 truncate px-1">
+                          {pokemonName}
                         </span>
-                      )}
-
-                      {pokemon.sprite ? (
-                        <img src={pokemon.sprite} alt={pokemon.name} className="w-16 h-16 object-contain group-hover:scale-110 transition-transform" />
-                      ) : (
-                        <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center text-[10px] text-gray-500">
-                          No Art
-                        </div>
-                      )}
-
-                      <div className="font-bold text-sm text-gray-100 mt-2 truncate w-full">
-                        {pokemon.name}
-                      </div>
-
-                      {/* Displaying Item and Ability */}
-                      {pokemon.build && (
-                        <div className="text-[10px] text-gray-400 mt-1 w-full text-center flex flex-col gap-0.5">
-                          <span className="truncate">📦 {pokemon.build.item}</span>
-                          <span className="truncate">✨ {pokemon.build.ability}</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Displaying Synergy Penalties or Breakdown flags */}
-                <div className="mt-3 text-[10px] text-gray-400 font-mono flex flex-col gap-1 bg-gray-900/50 p-2 rounded border border-gray-800">
-                  <div className="flex justify-between">
-                    <span>⚔️ Offense/Support: +{strategy.evaluation.breakdown.offense} / +{strategy.evaluation.breakdown.support}</span>
-                    <span>⚡ Speed Control: +{strategy.evaluation.breakdown.speed}</span>
+                      </>
+                    ) : (
+                      <span className="text-gray-300 text-2xl font-black">?</span>
+                    )}
                   </div>
-                  <div className="flex justify-between border-t border-gray-800 pt-1 mt-1 text-gray-500">
-                    <span>⚠️ Missing Core Roles: {strategy.evaluation.breakdown.missingCore}</span>
-                    <span>👑 Restricted Count: {strategy.evaluation.breakdown.restrictedCount}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </main>
 
-      {/* PHASE 2: BUILD INSPECT MODAL */}
-      {selectedInspectPokemon && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" 
-          onClick={() => setSelectedInspectPokemon(null)}
-        >
-          <div 
-            className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden text-gray-100 max-h-[90vh] overflow-y-auto scrollbar-thin"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="bg-gray-800 p-6 flex flex-col items-center relative border-b border-gray-700">
-              <button 
-                onClick={() => setSelectedInspectPokemon(null)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white font-bold cursor-pointer"
-              >
-                ✕
-              </button>
-              
-              {selectedInspectPokemon.isAutoGenerated && (
-                 <span className="absolute top-4 left-4 bg-orange-900/50 text-orange-400 border border-orange-700 px-2 py-1 rounded text-[10px] font-bold uppercase">
-                   ⚠️ Auto-Generated
-                 </span>
-              )}
+        {/* RESULTS: Generated Teams */}
+        {optimizedStrategies.length > 0 && (
+          <div className="space-y-6 mt-8 animate-fade-in-up">
+            <h2 className="text-2xl font-extrabold text-gray-800 border-b-2 border-gray-200 pb-2">
+              Recommended Drafts
+            </h2>
+            {optimizedStrategies.map((strategy, index) => {
+              const evaluation = strategy.evaluation;
+              const baseEvalScore = evaluation?.score || 0;
+              const breakdown = evaluation?.breakdown || { uniqueTypesCount: 0, typesPresent: [] };
+              const synergyScore = strategy.score - baseEvalScore;
 
-              <img src={selectedInspectPokemon.sprite} alt={selectedInspectPokemon.name} className="w-24 h-24 object-contain" />
-              <h2 className="text-2xl font-black tracking-tight mt-2">{selectedInspectPokemon.name}</h2>
-              <div className="flex gap-2 mt-2 items-center">
-                {selectedInspectPokemon.types.map((type: string) => (
-                  <span key={type} className="px-2 py-0.5 bg-gray-700 rounded text-xs font-bold uppercase tracking-wider">
-                    {type}
-                  </span>
-                ))}
-                {selectedInspectPokemon.buildName && (
-                  <span className="px-2 py-0.5 bg-indigo-900/50 text-indigo-300 border border-indigo-700 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm">
-                    🛠️ {selectedInspectPokemon.buildName}
-                  </span>
-                )}
-              </div>
-            </div>
+              return (
+                <div key={`${strategy.archetype}-${index}`} className="bg-white rounded-2xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-gray-100 pb-4 mb-6 gap-4">
+                    <div>
+                      <h3 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 uppercase">
+                        {strategy.archetype.replace("_", " ")} CORE (Variant {index + 1})
+                      </h3>
+                      <p className="text-sm text-gray-500 font-medium">
+                        Total Composite Rating: <span className="text-green-600 font-extrabold font-mono text-base">{strategy.score}</span>
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => exportShowdownText(strategy.team)}
+                      className="text-xs bg-gray-800 text-white px-3 py-1.5 rounded hover:bg-gray-700 transition self-start sm:self-center shadow"
+                    >
+                      Copy Showdown Text
+                    </button>
+                  </div>
 
-            {selectedInspectPokemon.build ? (
-              <div className="p-6">
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-1">Item</span>
-                    <span className="text-sm font-medium">{selectedInspectPokemon.build.item}</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-1">Ability</span>
-                    <span className="text-sm font-medium">{selectedInspectPokemon.build.ability}</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-1">Nature</span>
-                    <span className="text-sm font-medium">{selectedInspectPokemon.build.nature}</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-1">Tera Type</span>
-                    <span className="text-sm font-medium flex items-center gap-1">
-                      💎 {selectedInspectPokemon.build.teraType || "Varies"}
-                    </span>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-1">EV Spread</span>
-                    <span className="text-sm font-mono bg-gray-800 px-2 py-1 rounded block">{selectedInspectPokemon.build.evs}</span>
-                  </div>
-                </div>
+                  {/* 📈 COMPREHENSIVE METRICS BREAKDOWN DASHBOARD */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 shadow-sm">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">🛡️ Defensive Core Types</span>
+                        <span className="text-sm font-bold font-mono text-gray-700">{breakdown.uniqueTypesCount} Unique</span>
+                      </div>
+                      <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div 
+                          className="bg-emerald-500 h-full rounded-full transition-all duration-500" 
+                          style={{ width: `${Math.min(100, (breakdown.uniqueTypesCount / 18) * 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2 truncate w-full">
+                        Coverage: {breakdown.typesPresent.join(', ')}
+                      </p>
+                    </div>
 
-                <div>
-                  <span className="text-[10px] text-gray-400 font-bold uppercase block mb-2">Moveset</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    {selectedInspectPokemon.build.moves.map((move: string) => (
-                      <div key={move} className="bg-blue-900/20 border border-blue-900/50 text-blue-200 px-3 py-2 rounded text-sm text-center font-medium">
-                        {move}
+                    <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 shadow-sm">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">🤝 Mechanical Synergy</span>
+                        <span className="text-sm font-bold font-mono text-gray-700">{Math.round(synergyScore)} pts</span>
+                      </div>
+                      <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div 
+                          className="bg-indigo-500 h-full rounded-full transition-all duration-500" 
+                          style={{ width: `${Math.min(100, Math.max(0, synergyScore))}%` }}
+                        />
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2 truncate w-full">
+                        Calculated from abilities, items, movesets, and field mechanics.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* SIX-MAN ROSTER GRID */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                    {strategy.team.map((member) => (
+                      <div 
+                        key={member.name} 
+                        onClick={() => setSelectedInspectPokemon(member)}
+                        className="bg-gray-50 border border-gray-200 rounded-xl p-3 flex flex-col items-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors group relative shadow-sm"
+                      >
+                        {member.isAutoGenerated && (
+                           <span className="absolute top-1 right-1 text-[10px] bg-yellow-200 text-yellow-800 px-1 rounded font-bold">Auto</span>
+                        )}
+                        <div className="h-16 flex items-end justify-center mb-2">
+                          <img 
+                            src={getSpriteUrl(member.name)} 
+                            alt={member.name} 
+                            className="max-h-full object-contain group-hover:scale-110 transition-transform"
+                          />
+                        </div>
+                        <span className="text-xs font-bold text-gray-800 truncate w-full text-center">{member.name}</span>
+                        <span className="text-[10px] text-gray-500 truncate w-full text-center mt-0.5">{member.build?.item || "No Item"}</span>
                       </div>
                     ))}
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
-                {/* PHASE 2: LIVE BASE STAT BARS */}
-                {selectedInspectPokemon.stats && selectedInspectPokemon.stats.length > 0 && (
-                  <div className="mt-6 border-t border-gray-700 pt-4">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase block mb-3">Base Stats</span>
-                    <div className="flex flex-col gap-1.5">
-                      {selectedInspectPokemon.stats.map((stat: any) => {
-                        const fillPercentage = Math.min(100, (stat.base_stat / 255) * 100);
-                        const statLabels: Record<string, string> = { hp: "HP", attack: "ATK", defense: "DEF", "special-attack": "SPA", "special-defense": "SPD", speed: "SPE" };
-                        
-                        return (
-                          <div key={stat.name} className="flex items-center text-xs font-mono">
-                            <span className="w-10 text-gray-400">{statLabels[stat.name] || stat.name}</span>
-                            <span className="w-8 text-right mr-2 font-bold">{stat.base_stat}</span>
-                            <div className="flex-1 bg-gray-800 h-2.5 rounded-full overflow-hidden">
-                              <div 
-                                className={`h-full rounded-full ${stat.base_stat >= 100 ? 'bg-green-500' : stat.base_stat >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                style={{ width: `${fillPercentage}%` }}
-                              ></div>
+      {/* INSPECT MODAL */}
+      {selectedInspectPokemon && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-scale-in">
+            <div className="bg-gray-900 p-5 flex justify-between items-center text-white">
+              <div className="flex items-center gap-4">
+                <img 
+                  src={getSpriteUrl(selectedInspectPokemon.name)} 
+                  alt="Sprite" 
+                  className="w-16 h-16 object-contain drop-shadow-md" 
+                />
+                <div>
+                  <h2 className="text-2xl font-black">{selectedInspectPokemon.name}</h2>
+                  <div className="flex gap-2 mt-1">
+                    {selectedInspectPokemon.types.map((type: string) => {
+                       const formattedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+                       const t = TYPE_COLORS[formattedType] || TYPE_COLORS.Normal;
+                       return (
+                         <span key={type} className={`${t.bg} ${t.border} text-white text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-sm flex items-center gap-1`}>
+                           {t.emoji} {formattedType}
+                         </span>
+                       );
+                    })}
+                  </div>
+                </div>
+              </div>
+              <button onClick={() => setSelectedInspectPokemon(null)} className="text-gray-400 hover:text-white text-3xl transition">
+                &times;
+              </button>
+            </div>
+
+            <div className="p-6">
+              {selectedInspectPokemon.build ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Equipment</h4>
+                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-100 text-sm font-medium text-gray-700">
+                        <div className="flex justify-between border-b pb-1 mb-1">
+                          <span className="text-gray-500">Item</span>
+                          <span>{selectedInspectPokemon.build.item}</span>
+                        </div>
+                        <div className="flex justify-between border-b pb-1 mb-1">
+                          <span className="text-gray-500">Ability</span>
+                          <span className="capitalize">{selectedInspectPokemon.build.ability.replace("-", " ")}</span>
+                        </div>
+                        <div className="flex justify-between border-b pb-1 mb-1">
+                          <span className="text-gray-500">Nature</span>
+                          <span>{selectedInspectPokemon.build.nature}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Tera Type</span>
+                          <span className="flex items-center gap-1 text-[11px] font-bold">
+                             {TYPE_COLORS[selectedInspectPokemon.build.teraType]?.emoji} {selectedInspectPokemon.build.teraType}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Moveset</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {selectedInspectPokemon.build.moves.map((move: string, i: number) => {
+                          const moveType = guessMoveType(move);
+                          const style = TYPE_COLORS[moveType] || TYPE_COLORS.Normal;
+                          return (
+                            <div key={i} className={`flex items-center gap-3 p-2 rounded-lg border ${style.border} ${style.bg} bg-opacity-10`}>
+                              <span className="text-lg">{style.emoji}</span>
+                              <span className="font-bold text-gray-800 text-sm capitalize">{move.replace("-", " ")}</span>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className="p-8 text-center text-gray-500 text-sm">
-                No competitive build data available.
-              </div>
-            )}
+
+                  <div className="space-y-4">
+                     <div>
+                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">EV Spread</h4>
+                       <div className="bg-blue-50 text-blue-900 border border-blue-200 rounded-lg p-3 text-sm font-mono text-center">
+                         {selectedInspectPokemon.build.evs}
+                       </div>
+                     </div>
+
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Base Stats Matrix</h4>
+                      <div className="bg-gray-50 rounded-lg p-4 border border-gray-100 space-y-2">
+                        {selectedInspectPokemon.stats?.map((stat: any) => {
+                          const fillPercentage = Math.min(100, (stat.base_stat / 255) * 100);
+                          const statLabels: Record<string, string> = { hp: "HP", attack: "ATK", defense: "DEF", "special-attack": "SPA", "special-defense": "SPD", speed: "SPE" };
+                          
+                          return (
+                            <div key={stat.name} className="flex items-center text-xs font-mono">
+                              <span className="w-10 text-gray-400">{statLabels[stat.name] || stat.name}</span>
+                              <span className="w-8 text-right mr-3 font-bold text-gray-700">{stat.base_stat}</span>
+                              <div className="flex-1 bg-gray-200 h-2.5 rounded-full overflow-hidden shadow-inner">
+                                <div 
+                                  className={`h-full rounded-full ${stat.base_stat >= 100 ? 'bg-green-500' : stat.base_stat >= 70 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                                  style={{ width: `${fillPercentage}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-12 text-center text-gray-500 text-sm bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                  No detailed competitive build data available for this placeholder.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
