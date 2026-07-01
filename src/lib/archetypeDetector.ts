@@ -2,18 +2,32 @@
 import { pokemonMap } from "./teamEvaluator";
 import archetypesData from "../data/archetype.json";
 
-type ArchetypeDef = {
+export type ArchetypeDef = {
     required: string[];
     preferred: string[];
 };
 
-type ArchetypeScore = {
+export type ArchetypeScore = {
     archetype: string;
     score: number;
 };
 
-// Map your JSON file to the structural definition
-const typedArchetypesData: Record<string, ArchetypeDef> = archetypesData as Record<string, ArchetypeDef>;
+// 🧠 Bulletproof VGC Meta Blueprints
+const VGC_META_BLUEPRINTS: Record<string, ArchetypeDef> = {
+    "Rain": { required: ["rain_setter"], preferred: ["rain_abuser", "tailwind_setter", "redirector", "intimidate"] },
+    "Sun": { required: ["sun_setter"], preferred: ["sun_abuser", "trick_room_setter", "fast_sweeper"] },
+    "Sand": { required: ["sand_setter"], preferred: ["sand_abuser", "redirector"] },
+    "Snow": { required: ["snow_setter"], preferred: ["snow_abuser", "aurora_veil"] },
+    "Trick Room": { required: ["trick_room_setter"], preferred: ["trick_room_abuser", "fake_out", "redirector"] },
+    "Tailwind Offense": { required: ["tailwind_setter"], preferred: ["fast_sweeper", "fake_out", "intimidate", "terrain_setter"] },
+    "Goodstuff Balance": { required: [], preferred: ["fake_out", "intimidate", "redirector", "speed_control"] }
+};
+
+// Exported so teamOptimizer can dynamically analyze blueprint requirements mid-search
+export const typedArchetypesData: Record<string, ArchetypeDef> = { 
+    ...VGC_META_BLUEPRINTS,
+    ...(archetypesData as Record<string, ArchetypeDef> || {})
+};
 
 /**
  * Scans a team string array and accumulates total role weights.
@@ -22,7 +36,6 @@ function getRoleScores(team: string[]): Record<string, number> {
     const roleScores: Record<string, number> = {};
 
     for (const pokemonName of team) {
-        // 🌟 UPDATE: Utilizing the centralized map from teamEvaluator
         const pokemon = pokemonMap[pokemonName.toLowerCase()];
         if (!pokemon || !pokemon.roles) continue;
 
@@ -57,6 +70,11 @@ function scoreArchetype(roleScores: Record<string, number>, archetypeDef: Archet
         }
     }
 
+    // Ensure baseline archetypes (like Goodstuff) still pass even if score is 0
+    if (archetypeDef.required.length === 0 && score === 0) {
+        return 1; 
+    }
+
     return score;
 }
 
@@ -74,6 +92,5 @@ export function detectArchetypes(box: string[]): ArchetypeScore[] {
         }
     }
 
-    // Sort highest scoring archetypes to prioritize them in the beam search
     return scores.sort((a, b) => b.score - a.score);
 }

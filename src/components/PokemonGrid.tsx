@@ -1,6 +1,7 @@
 // src/components/PokemonGrid.tsx
 import { useEffect, useState } from "react";
 import pokemonData from "../data/pokemon.json";
+import PokemonSprite from "./PokemonSprite";
 
 interface PokemonGridProps {
   onSelect: (name: string) => void;
@@ -8,12 +9,11 @@ interface PokemonGridProps {
 
 export default function PokemonGrid({ onSelect }: PokemonGridProps) {
   const [allPokemon, setAllPokemon] = useState<{name: string, types: string[]}[]>([]);
+  // 🛠️ FIXED: Removed the invalid backslashes from the empty string
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // 1. Load the pristine roster directly from our ultimate JSON sandbox data
   useEffect(() => {
-    // Simulating a quick initialization cycle for the UI
     setTimeout(() => {
       const roster = (pokemonData as any[]).map(p => ({
         name: p.name,
@@ -24,74 +24,70 @@ export default function PokemonGrid({ onSelect }: PokemonGridProps) {
     }, 400);
   }, []);
 
-  // 2. Real-time filtering
   const filteredPokemon = allPokemon.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
   );
 
-  // Helper to format the name for the animated sprite URL
-  const getSpriteUrl = (name: string) => {
-    const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    return `https://play.pokemonshowdown.com/sprites/ani/${cleanName}.gif`;
-  };
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4 bg-white border border-gray-100 rounded-2xl shadow-sm min-h-[400px]">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-sm font-medium text-gray-500 animate-pulse">Synchronizing Regional Dex Database...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-          <span>🏆</span> Champions Dex Roster
-        </h2>
+    <div className="flex flex-col space-y-4">
+      {/* Search Header Bar */}
+      <div className="flex items-center bg-white border border-gray-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 rounded-xl px-4 py-2.5 shadow-sm transition-all duration-200">
+        <span className="text-xl mr-2 text-gray-400">🔍</span>
         <input
           type="text"
-          placeholder="Search species..."
+          placeholder="Search box by species name (e.g., Basculegion, Incineroar)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64"
+          className="w-full text-sm outline-none bg-transparent text-gray-800 placeholder-gray-400"
         />
+        {searchQuery && (
+          <button 
+            onClick={() => setSearchQuery("")}
+            className="text-gray-400 hover:text-gray-600 text-xs font-bold px-1.5 py-0.5 bg-gray-100 hover:bg-gray-200 rounded"
+          >
+            CLEAR
+          </button>
+        )}
       </div>
 
-      {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-12 text-gray-400 gap-2">
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-xs font-mono">Loading 3D Assets...</span>
+      {/* Grid Canvas Wrapper */}
+      {filteredPokemon.length === 0 ? (
+        <div className="flex flex-col items-center justify-center p-12 text-center bg-gray-50 border border-dashed border-gray-200 rounded-2xl min-h-[250px]">
+          <span className="text-3xl mb-2">📦</span>
+          <p className="text-sm font-semibold text-gray-600">No Match Found</p>
+          {/* 🛠️ FIXED: Used &apos; instead of an unescaped apostrophe */}
+          <p className="text-xs text-gray-400 max-w-xs mt-1">We couldn&apos;t track down that species in the current VGC meta index regulations.</p>
         </div>
       ) : (
-        <div className="max-h-[500px] overflow-y-auto border border-gray-100 rounded-lg p-3 bg-gray-50 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 scrollbar-thin">
-          {filteredPokemon.length === 0 ? (
-            <div className="col-span-full text-center py-12 text-sm text-gray-400 italic">
-              No Pokémon matches "{searchQuery}"
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          {filteredPokemon.map((p) => (
+            <div
+              key={p.name}
+              onClick={() => onSelect(p.name)}
+              className="group relative flex flex-col items-center justify-end cursor-pointer h-28 p-2 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-400 rounded-xl transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md overflow-hidden"
+            >
+              {/* 3D Animated Sprite Container */}
+              <div className="absolute top-2 left-0 right-0 bottom-8 flex items-center justify-center pointer-events-none">
+                 <PokemonSprite displayName={p.name} />
+              </div>
+              
+              {/* Name Label */}
+              <div className="w-full text-center bg-gray-100 group-hover:bg-blue-100 rounded py-1 px-1 mt-auto z-10 transition-colors duration-200">
+                  <span className="text-[11px] font-bold text-gray-700 block truncate">
+                    {p.name}
+                  </span>
+              </div>
             </div>
-          ) : (
-            filteredPokemon.map((p) => (
-              <button
-                key={p.name}
-                type="button"
-                onClick={() => onSelect(p.name)}
-                className="relative group flex flex-col items-center justify-end h-28 p-2 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-400 rounded-xl transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md overflow-hidden"
-              >
-                {/* 3D Animated Sprite */}
-                <div className="absolute top-2 left-0 right-0 bottom-8 flex items-center justify-center pointer-events-none">
-                   <img 
-                      src={getSpriteUrl(p.name)} 
-                      alt={p.name}
-                      onError={(e) => {
-                        // Fallback to static sprite if the animated one hasn't loaded/doesn't exist
-                        (e.target as HTMLImageElement).src = `https://play.pokemonshowdown.com/sprites/dex/${p.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-                      }}
-                      className="max-h-16 max-w-full object-contain group-hover:scale-110 transition-transform duration-300"
-                      style={{ imageRendering: 'pixelated' }}
-                   />
-                </div>
-                
-                {/* Name Label */}
-                <div className="w-full text-center bg-gray-100 group-hover:bg-blue-100 rounded py-1 px-1 mt-auto z-10">
-                    <span className="text-[11px] font-bold text-gray-700 block truncate">
-                      {p.name}
-                    </span>
-                </div>
-              </button>
-            ))
-          )}
+          ))}
         </div>
       )}
     </div>

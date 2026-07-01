@@ -1,5 +1,5 @@
 // src/lib/teamOptimizer.ts
-import { detectArchetypes } from "./archetypeDetector";
+import { detectArchetypes, typedArchetypesData } from "./archetypeDetector";
 import { evaluateTeam, pokemonMap, type Pokemon, type PokemonBuild } from "./teamEvaluator";
 import { fetchPokemonGameData, type LiveGameData } from "./pokeApi";
 
@@ -17,6 +17,245 @@ export type OptimizedTeamResult = {
     evaluation: ReturnType<typeof evaluateTeam>;
 };
 
+// Global Item Pool Setup
+function getGlobalRegulatedItems(): string[] {
+    const itemFrequencies: Record<string, number> = {};
+    for (const pData of Object.values(pokemonMap)) {
+        if (pData.usageData?.items) {
+            const items = pData.usageData.items;
+            let itemArray: any[] = [];
+            if (Array.isArray(items)) itemArray = items;
+            else if (typeof items === 'object' && Object.keys(items).length > 0) itemArray = Object.keys(items).map(k => ({ name: k }));
+            for (const itemObj of itemArray) {
+                const itemName = typeof itemObj === 'string' ? itemObj : itemObj?.name;
+                if (itemName && typeof itemName === 'string' && itemName.toLowerCase() !== "unknown item" && itemName.toLowerCase() !== "nothing") {
+                    itemFrequencies[itemName] = (itemFrequencies[itemName] || 0) + 1;
+                }
+            }
+        }
+    }
+    const sortedItems = Object.entries(itemFrequencies).sort((a, b) => b[1] - a[1]).map(entry => entry[0]);
+    if (sortedItems.length === 0) return ["Sitrus Berry", "Leftovers", "Life Orb"];
+    return sortedItems;
+}
+
+const REGULATED_FALLBACK_ITEMS = getGlobalRegulatedItems();
+const REGULATION_ITEM_SET = new Set(REGULATED_FALLBACK_ITEMS.map(normalizeItem));
+
+function normalizeItem(item: string): string {
+    return item.toLowerCase().replace(/[\s_-]/g, "");
+}
+
+function isInvalidItem(item: string): boolean {
+    const lower = item.trim().toLowerCase();
+    return lower.length === 0 || lower === "unknown item" || lower === "nothing";
+}
+
+function isRegulationLegalItem(item: string, pData?: Pokemon | null): boolean {
+    if (isInvalidItem(item)) return false;
+    if (pData?.requires_item && normalizeItem(pData.requires_item) === normalizeItem(item)) return true;
+    return REGULATION_ITEM_SET.has(normalizeItem(item));
+}
+
+function pickFirstLegalItem(preferredItems: string[], pData?: Pokemon | null): string {
+    for (const item of preferredItems) {
+        if (isRegulationLegalItem(item, pData)) return item;
+    }
+
+    const fallback = REGULATED_FALLBACK_ITEMS.find(item => isRegulationLegalItem(item, pData));
+    if (fallback) return fallback;
+    return pData?.requires_item || REGULATED_FALLBACK_ITEMS[0] || "Leftovers";
+}
+
+function getUsageItemCandidates(pData: Pokemon | undefined): string[] {
+    if (!pData?.usageData?.items) return [];
+
+    const rawItems = pData.usageData.items as unknown;
+    const parsed: { name: string; weight: number }[] = [];
+
+    if (Array.isArray(rawItems)) {
+        for (let i = 0; i < rawItems.length; i++) {
+            const entry = rawItems[i] as { name?: string; usage?: string } | string;
+            const name = typeof entry === "string" ? entry : entry?.name;
+            if (!name || isInvalidItem(name)) continue;
+
+            const usageStr = typeof entry === "object" && entry ? entry.usage : undefined;
+            const usageNum = usageStr ? Number(String(usageStr).replace(/%/g, "").trim()) : 0;
+            const fallbackWeight = Math.max(0, 100 - i);
+            parsed.push({ name, weight: Number.isFinite(usageNum) && usageNum > 0 ? usageNum : fallbackWeight });
+        }
+    } else if (rawItems && typeof rawItems === "object") {
+        for (const [name, weight] of Object.entries(rawItems as Record<string, string | number>)) {
+            if (isInvalidItem(name)) continue;
+            const parsedWeight = typeof weight === "number" ? weight : Number(String(weight).replace(/%/g, "").trim());
+            parsed.push({ name, weight: Number.isFinite(parsedWeight) ? parsedWeight : 0 });
+        }
+    }
+
+    parsed.sort((a, b) => b.weight - a.weight);
+    return parsed.map(i => i.name);
+}
+
+function getRoleAwareItemCandidates(pData: Pokemon | undefined, liveData: LiveGameData | null): string[] {
+    if (!pData) return [];
+
+    const candidates: string[] = [];
+    const speedStat = liveData?.stats.find(s => s.name === "speed")?.base_stat ?? 100;
+    const atk = liveData?.stats.find(s => s.name === "attack")?.base_stat ?? 0;
+    const spa = liveData?.stats.find(s => s.name === "special-attack")?.base_stat ?? 0;
+
+    if (pData.roles?.["fake_out"] || pData.roles?.["redirector"]) {
+        candidates.push("Sitrus Berry", "Safety Goggles");
+    }
+    if (pData.roles?.["tailwind_setter"] || pData.roles?.["trick_room_setter"]) {
+        candidates.push("Mental Herb", "Focus Sash");
+    }
+    if (pData.roles?.["intimidate"]) {
+        candidates.push("Assault Vest", "Sitrus Berry");
+    }
+    if (pData.roles?.["fast_sweeper"] || speedStat >= 110) {
+        candidates.push("Focus Sash", "Life Orb", "Choice Scarf");
+    }
+    if (pData.roles?.["trick_room_abuser"] || speedStat <= 50) {
+        candidates.push("Life Orb", "Assault Vest");
+    }
+
+    if (atk > spa && atk >= 110) {
+        candidates.push("Life Orb", "Choice Band", "Clear Amulet");
+    } else if (spa > atk && spa >= 110) {
+        candidates.push("Life Orb", "Choice Specs", "Expert Belt");
+    } else {
+        candidates.push("Sitrus Berry", "Leftovers");
+    }
+
+    return candidates.filter(i => isRegulationLegalItem(i, pData));
+}
+
+function scoreItemFit(item: string, memberName: string, liveData: LiveGameData | null): number {
+    const pData = pokemonMap[memberName.toLowerCase()];
+    if (!pData || isInvalidItem(item)) return -100;
+    if (!isRegulationLegalItem(item, pData)) return -300;
+
+    const normalized = normalizeItem(item);
+    const required = pData.requires_item ? normalizeItem(pData.requires_item) : "";
+
+    if (required && normalized === required) return 200;
+    if (required && normalized !== required) return -500;
+
+    const usageCandidates = getUsageItemCandidates(pData);
+    const usageIndex = usageCandidates.findIndex(i => normalizeItem(i) === normalized);
+    let score = usageIndex >= 0 ? Math.max(0, 60 - usageIndex * 8) : 0;
+
+    const roleAware = getRoleAwareItemCandidates(pData, liveData);
+    const roleIndex = roleAware.findIndex(i => normalizeItem(i) === normalized);
+    if (roleIndex >= 0) score += Math.max(0, 30 - roleIndex * 5);
+
+    if (normalized === "focussash" && (pData.roles?.["fast_sweeper"] || pData.roles?.["tailwind_setter"])) score += 8;
+    if (normalized === "mentalherb" && (pData.roles?.["tailwind_setter"] || pData.roles?.["trick_room_setter"])) score += 10;
+    if (normalized === "sitrusberry" && (pData.roles?.["redirector"] || pData.roles?.["fake_out"] || pData.roles?.["intimidate"])) score += 8;
+
+    return score;
+}
+
+function getItemCandidatesForMember(memberName: string, liveData: LiveGameData | null): string[] {
+    const pData = pokemonMap[memberName.toLowerCase()];
+    if (!pData) return [];
+
+    const primaryBuildKey = Object.keys(pData.builds || {})[0];
+    const buildItem = primaryBuildKey ? pData.builds[primaryBuildKey]?.item : "";
+
+    const dedup = new Set<string>();
+    const ordered: string[] = [];
+    const pushCandidate = (item?: string, force = false) => {
+        if (!item || isInvalidItem(item)) return;
+        if (!force && !isRegulationLegalItem(item, pData)) return;
+        const key = normalizeItem(item);
+        if (dedup.has(key)) return;
+        dedup.add(key);
+        ordered.push(item);
+    };
+
+    if (pData.requires_item) pushCandidate(pData.requires_item, true);
+    pushCandidate(buildItem);
+    getUsageItemCandidates(pData).forEach(item => pushCandidate(item));
+    getRoleAwareItemCandidates(pData, liveData).forEach(item => pushCandidate(item));
+    REGULATED_FALLBACK_ITEMS.forEach(item => pushCandidate(item));
+
+    return ordered;
+}
+
+function assignItemsForTeam(teamNames: string[], liveBoxData: Record<string, LiveGameData | null>): {
+    itemByName: Record<string, string>;
+    duplicateCount: number;
+    realismScore: number;
+    megaCount: number;
+} {
+    const itemByName: Record<string, string> = {};
+    const usedItems = new Set<string>();
+    const orderedMembers = [...teamNames].sort((a, b) => {
+        const pa = pokemonMap[a.toLowerCase()];
+        const pb = pokemonMap[b.toLowerCase()];
+        const aReq = pa?.requires_item ? 0 : 1;
+        const bReq = pb?.requires_item ? 0 : 1;
+        if (aReq !== bReq) return aReq - bReq;
+        return getItemCandidatesForMember(a, liveBoxData[a.toLowerCase()]).length - getItemCandidatesForMember(b, liveBoxData[b.toLowerCase()]).length;
+    });
+
+    let realismScore = 0;
+
+    for (const memberName of orderedMembers) {
+        const candidates = getItemCandidatesForMember(memberName, liveBoxData[memberName.toLowerCase()]);
+        const pData = pokemonMap[memberName.toLowerCase()];
+
+        let picked = "";
+
+        if (pData?.requires_item) {
+            picked = pData.requires_item;
+        } else {
+            let bestScore = -Infinity;
+            for (const candidate of candidates) {
+                const norm = normalizeItem(candidate);
+                if (usedItems.has(norm)) continue;
+
+                const fitScore = scoreItemFit(candidate, memberName, liveBoxData[memberName.toLowerCase()]);
+                if (fitScore > bestScore) {
+                    bestScore = fitScore;
+                    picked = candidate;
+                }
+            }
+
+            if (!picked) {
+                const firstUniqueFallback = REGULATED_FALLBACK_ITEMS.find(i => !usedItems.has(normalizeItem(i)));
+                picked = firstUniqueFallback || candidates[0] || REGULATED_FALLBACK_ITEMS[0] || "Leftovers";
+            }
+        }
+
+        itemByName[memberName.toLowerCase()] = picked;
+        usedItems.add(normalizeItem(picked));
+        realismScore += scoreItemFit(picked, memberName, liveBoxData[memberName.toLowerCase()]);
+    }
+
+    const assignedNormalized = Object.values(itemByName).map(normalizeItem);
+    const duplicateCount = assignedNormalized.length - new Set(assignedNormalized).size;
+
+    let megaCount = 0;
+    for (const memberName of teamNames) {
+        const pData = pokemonMap[memberName.toLowerCase()];
+        const pseudoBuild: PokemonBuild = {
+            ability: "",
+            evs: "",
+            moves: [],
+            nature: "",
+            teraType: "Normal",
+            item: itemByName[memberName.toLowerCase()] || ""
+        };
+
+        if (isMegaCaptain(memberName, pseudoBuild, pData)) megaCount++;
+    }
+
+    return { itemByName, duplicateCount, realismScore, megaCount };
+}
+
 function getArchetypeBonus(team: string[], archetype: string): number {
     let bonus = 0;
     for (const pokemonName of team) {
@@ -29,262 +268,304 @@ function getArchetypeBonus(team: string[], archetype: string): number {
     return bonus;
 }
 
-/**
- * Checks if a Pokémon is functioning as a Mega Captain based on its item or name
- */
 function isMegaCaptain(name: string, build: PokemonBuild | null, pData: Pokemon | undefined): boolean {
     const item = build?.item?.toLowerCase().replace(/[\s_-]/g, "") || "";
     const reqItem = pData?.requires_item?.toLowerCase().replace(/[\s_-]/g, "") || "";
-
-    if (name.toLowerCase().includes("-mega")) return true;
-    if (item.includes("ite") && item !== "eviolite") return true;
-    if (reqItem && item === reqItem) return true;
-
-    return false;
+    const lowerName = name.toLowerCase();
+    return item.includes("mega") || item.includes("primal") || reqItem.includes("mega") || reqItem.includes("primal") || lowerName.includes("mega") || lowerName.includes("primal");
 }
 
-function generateDynamicFallbackBuild(liveData: LiveGameData | null): PokemonBuild {
+function generateDynamicFallbackBuild(liveData: LiveGameData | null, pData?: Pokemon | null): PokemonBuild {
+    const safeDefaultItem = pickFirstLegalItem(["Leftovers", "Sitrus Berry", "Life Orb"], pData);
     const defaultBuild: PokemonBuild = {
         ability: liveData?.abilities?.[0] || "Unknown Ability",
-        item: "Leftovers",
+        item: safeDefaultItem,
         nature: "Hardy",
         evs: "252 HP / 4 Def / 252 Spe",
         moves: ["Protect", "Substitute", "Toxic", "Helping Hand"],
         teraType: liveData?.types?.[0] || "Normal"
     };
 
-    if (!liveData || !liveData.stats) return defaultBuild;
+    let appliedUsageItem = false;
+    let appliedUsageMoves = false;
 
-    const statsMap = Object.fromEntries(liveData.stats.map(s => [s.name, s.base_stat]));
-    const atk = statsMap["attack"] || 0;
-    const spa = statsMap["special-attack"] || 0;
-    const spe = statsMap["speed"] || 0;
+    if (pData && pData.usageData) {
+        const { moves, items, abilities } = pData.usageData;
+        if (Array.isArray(items) && items.length > 0) {
+            const itemName = typeof items[0] === 'string' ? items[0] : items[0]?.name;
+            if (typeof itemName === 'string' && isRegulationLegalItem(itemName, pData)) {
+                defaultBuild.item = itemName;
+                appliedUsageItem = true;
+            }
+        } else if (items && typeof items === 'object' && Object.keys(items).length > 0) {
+            const sortedItems = Object.entries(items).sort((a, b) => Number(b[1]) - Number(a[1]));
+            const firstLegalItem = sortedItems.find(([name]) => isRegulationLegalItem(name, pData));
+            if (firstLegalItem) {
+                defaultBuild.item = firstLegalItem[0];
+                appliedUsageItem = true;
+            }
+        }
 
-    if (liveData.abilities.includes("intimidate")) defaultBuild.ability = "intimidate";
-    else if (liveData.abilities.includes("prankster")) defaultBuild.ability = "prankster";
+        if (Array.isArray(abilities) && abilities.length > 0) {
+            const abilityName = typeof abilities[0] === 'string' ? abilities[0] : abilities[0]?.name;
+            if (typeof abilityName === 'string') defaultBuild.ability = abilityName;
+        } else if (abilities && typeof abilities === 'object' && Object.keys(abilities).length > 0) {
+            const sortedAbilities = Object.entries(abilities).sort((a, b) => Number(b[1]) - Number(a[1]));
+            if (sortedAbilities.length > 0) defaultBuild.ability = sortedAbilities[0][0];
+        }
 
-    if (atk > spa && atk > 90) {
-        defaultBuild.nature = spe > 90 ? "Jolly" : "Adamant";
-        defaultBuild.evs = "4 HP / 252 Atk / 252 Spe";
-        defaultBuild.item = "Life Orb";
-        defaultBuild.moves = ["Protect", "Close Combat", "Iron Head", "Facade"];
-    } else if (spa > atk && spa > 90) {
-        defaultBuild.nature = spe > 90 ? "Timid" : "Modest";
-        defaultBuild.evs = "4 HP / 252 SpA / 252 Spe";
-        defaultBuild.item = "Choice Specs";
-        defaultBuild.moves = ["Hyper Voice", "Thunderbolt", "Earth Power", "Shadow Ball"];
-    } else {
-        defaultBuild.nature = "Bold";
-        defaultBuild.evs = "252 HP / 128 Def / 128 SpD";
-        defaultBuild.item = "Sitrus Berry";
+        let parsedMoves: string[] = [];
+        if (Array.isArray(moves) && moves.length > 0) {
+            parsedMoves = moves.slice(0, 4).map((m: any) => {
+                const mName = typeof m === 'string' ? m : m?.name;
+                return typeof mName === 'string' ? mName : "Protect";
+            });
+        } else if (moves && typeof moves === 'object' && Object.keys(moves).length > 0) {
+            const sortedMoves = Object.entries(moves).sort((a, b) => Number(b[1]) - Number(a[1]));
+            parsedMoves = sortedMoves.slice(0, 4).map(m => m[0]);
+        }
+
+        if (parsedMoves.length > 0) {
+            defaultBuild.moves = parsedMoves;
+            appliedUsageMoves = true;
+        }
     }
 
-    if (liveData.abilities.includes("drizzle") || liveData.abilities.includes("primordial-sea")) {
-        defaultBuild.moves.push("Hydro Pump");
+    if (!appliedUsageItem && liveData && liveData.stats) {
+        const statsMap = Object.fromEntries(liveData.stats.map(s => [s.name, s.base_stat]));
+        const atk = statsMap["attack"] || 0;
+        const spa = statsMap["special-attack"] || 0;
+        const spe = statsMap["speed"] || 0;
+
+        if (liveData.abilities.includes("intimidate")) defaultBuild.ability = "intimidate";
+        else if (liveData.abilities.includes("prankster")) defaultBuild.ability = "prankster";
+
+        if (atk > spa && atk > 90) {
+            defaultBuild.nature = spe > 90 ? "Jolly" : "Adamant";
+            defaultBuild.evs = "4 HP / 252 Atk / 252 Spe";
+            defaultBuild.item = pickFirstLegalItem(["Life Orb", "Clear Amulet", "Focus Sash"], pData);
+            if (!appliedUsageMoves) defaultBuild.moves = ["Protect", "Close Combat", "Iron Head", "Facade"];
+        } else if (spa > atk && spa > 90) {
+            defaultBuild.nature = spe > 90 ? "Timid" : "Modest";
+            defaultBuild.evs = "4 HP / 252 SpA / 252 Spe";
+            defaultBuild.item = pickFirstLegalItem(["Choice Specs", "Life Orb", "Focus Sash"], pData);
+            if (!appliedUsageMoves) defaultBuild.moves = ["Hyper Voice", "Thunderbolt", "Earth Power", "Shadow Ball"];
+        } else {
+            defaultBuild.nature = "Bold";
+            defaultBuild.evs = "252 HP / 128 Def / 128 SpD";
+            defaultBuild.item = pickFirstLegalItem(["Sitrus Berry", "Leftovers", "Assault Vest"], pData);
+        }
     }
 
     defaultBuild.moves = Array.from(new Set(defaultBuild.moves)).slice(0, 4);
-    while (defaultBuild.moves.length < 4) {
-        defaultBuild.moves.push("Protect");
-    }
+    while (defaultBuild.moves.length < 4) defaultBuild.moves.push("Protect");
+    if (pData?.requires_item) defaultBuild.item = pData.requires_item;
 
     return defaultBuild;
 }
 
-/**
- * Bottom-up mechanical synergy calculator to evaluate micro-synergy configurations
- */
-function getSynergyScore(team: string[], liveBoxData: Record<string, LiveGameData | null>): number {
-    let synergy = 0;
-    let hasDrizzle = false;
-    let hasDrought = false;
-    let hasTrickRoom = false;
-    const teamTypes = new Set<string>();
+function getSynergyScore(teamNames: string[]): number {
+    let synergyScore = 0;
+    const teamData = teamNames.map(name => pokemonMap[name.toLowerCase()]).filter(Boolean);
+    const lowerNames = teamNames.map(n => n.toLowerCase());
 
-    for (const name of team) {
-        const lowerName = name.toLowerCase();
-        const pData = pokemonMap[lowerName];
-        const liveData = liveBoxData[lowerName];
-        const buildKey = Object.keys(pData?.builds || {})[0] || "goodstuff";
-        const build = pData?.builds && buildKey ? pData.builds[buildKey] : null;
+    let weatherCount = 0;
+    if (teamData.some(p => p.roles?.["rain_setter"])) weatherCount++;
+    if (teamData.some(p => p.roles?.["sun_setter"])) weatherCount++;
+    if (teamData.some(p => p.roles?.["snow_setter"])) weatherCount++;
+    if (teamData.some(p => p.roles?.["sand_setter"])) weatherCount++;
+    if (weatherCount > 1) synergyScore -= 300;
 
-        const ability = build?.ability?.toLowerCase() || liveData?.abilities?.[0]?.toLowerCase() || "";
-        const moves = build?.moves?.map(m => m.toLowerCase()) || [];
+    let speedControlCount = 0;
+    let hasPriority = false;
 
-        if (ability === "drizzle" || ability === "primordial-sea") hasDrizzle = true;
-        if (ability === "drought" || ability === "desolate-land") hasDrought = true;
-        if (moves.includes("trick room")) hasTrickRoom = true;
-
-        liveData?.types?.forEach(t => teamTypes.add(t.toLowerCase()));
+    for (const p of teamData) {
+        if (p.roles?.["tailwind_setter"]) speedControlCount++;
+        if (p.roles?.["trick_room_setter"]) speedControlCount++;
+        if (p.roles?.["fake_out"]) hasPriority = true;
     }
 
-    if (teamTypes.has("fire") && teamTypes.has("water") && teamTypes.has("grass")) synergy += 30;
-    if (teamTypes.has("fairy") && teamTypes.has("dragon") && teamTypes.has("steel")) synergy += 30;
+    if (speedControlCount >= 2) synergyScore += 100;
+    else if (speedControlCount === 0) synergyScore -= 150;
+    if (!hasPriority) synergyScore -= 75;
 
-    for (const name of team) {
-        const lowerName = name.toLowerCase();
-        const pData = pokemonMap[lowerName];
-        const liveData = liveBoxData[lowerName];
-        const buildKey = Object.keys(pData?.builds || {})[0] || "goodstuff";
-        const build = pData?.builds && buildKey ? pData.builds[buildKey] : null;
+    if (lowerNames.includes("sneasler") && lowerNames.includes("kingambit")) synergyScore += 150;
+    if (lowerNames.includes("mega floette") && lowerNames.includes("whimsicott")) synergyScore += 150;
 
-        const ability = build?.ability?.toLowerCase() || liveData?.abilities?.[0]?.toLowerCase() || "";
-        const moves = build?.moves?.map(m => m.toLowerCase()) || [];
-        const types = liveData?.types?.map(t => t.toLowerCase()) || [];
-        
-        let speed = 100;
-        if (liveData?.stats) {
-            const speStat = liveData.stats.find(s => s.name === "speed" || s.name === "spe");
-            if (speStat) speed = speStat.base_stat;
-        }
+    const types = teamData.flatMap(p => p.types.map(t => typeof t === 'string' ? t.toLowerCase() : ""));
+    if (types.includes("fire") && types.includes("water") && types.includes("grass")) synergyScore += 50;
+    if (types.includes("fairy") && types.includes("dragon") && types.includes("steel")) synergyScore += 50;
 
-        if (hasDrizzle) {
-            if (ability === "swift swim") synergy += 25;
-            if (types.includes("water")) synergy += 10;
-            if (moves.includes("hurricane") || moves.includes("thunder")) synergy += 15;
-            if (types.includes("fire") || moves.includes("solar beam") || moves.includes("solarbeam")) synergy -= 15;
-        }
-
-        if (hasDrought) {
-            if (ability === "chlorophyll" || ability === "protosynthesis" || ability === "solar-power") synergy += 25;
-            if (types.includes("fire")) synergy += 10;
-            if (types.includes("water")) synergy -= 15;
-        }
-
-        if (hasTrickRoom) {
-            if (speed <= 60) synergy += 20;
-            if (speed >= 100) synergy -= 20;
-        }
-    }
-
-    return synergy;
+    return synergyScore;
 }
 
 export async function optimizeTeam(box: string[]): Promise<OptimizedTeamResult[]> {
-    if (!box || box.length < 6) {
-        throw new Error("Sandbox requires at least 6 unique entries to process.");
+    const recommendedStrategies: OptimizedTeamResult[] = [];
+    const filteredPool = Array.from(new Set(box.filter(name => pokemonMap[name.toLowerCase()])));
+
+    const liveBoxData: Record<string, LiveGameData | null> = {};
+    for (const name of filteredPool) {
+        liveBoxData[name.toLowerCase()] = await fetchPokemonGameData(name);
     }
 
-    Object.keys(pokemonMap).forEach(key => {
-        const p = pokemonMap[key];
-        if (!p.roles || Object.keys(p.roles).length === 0) {
-            p.roles = { goodstuff: 1 };
-        }
-        if (!p.archetypes || p.archetypes.length === 0) {
-            p.archetypes = ["goodstuff"];
-        }
-        if (!p.builds) {
-            p.builds = {};
-        }
-    });
-
-    const filteredPool = Array.from(new Set(box));
-    const liveBoxData: Record<string, LiveGameData | null> = {};
-
-    await Promise.all(
-        filteredPool.map(async (name) => {
-            const data = await fetchPokemonGameData(name);
-            liveBoxData[name.toLowerCase()] = data;
-        })
-    );
-
+    // 1. GENERATE BUILDS AND INJECT DYNAMIC ROLES
     filteredPool.forEach(name => {
         const lowerName = name.toLowerCase();
-        let pData = pokemonMap[lowerName];
+        const pData = pokemonMap[lowerName];
         const liveData = liveBoxData[lowerName];
 
-        if (!pData) {
-            pData = {
-                name: name,
-                types: liveData?.types || ["Normal"],
-                archetypes: ["goodstuff"],
-                roles: { goodstuff: 1 },
-                builds: {}
-            };
-            pokemonMap[lowerName] = pData;
+        const buildKeys = Object.keys(pData.builds);
+        let isPlaceholder = buildKeys.length === 0 || pData.builds[buildKeys[0]].item === "Leftovers" || pData.builds[buildKeys[0]].item === "Unknown Item";
+
+        if (isPlaceholder) {
+            pData.builds = {};
+            pData.builds["goodstuff"] = generateDynamicFallbackBuild(liveData, pData);
         }
 
-        if (!pData.builds) pData.builds = {};
+        if (pData.requires_item) {
+            for (const key in pData.builds) pData.builds[key].item = pData.requires_item;
+        }
 
-        if (Object.keys(pData.builds).length === 0) {
-            pData.builds["goodstuff"] = generateDynamicFallbackBuild(liveData);
+        // AGGRESSIVE META ROLE INJECTION
+        const activeBuild = Object.values(pData.builds)[0];
+        if (liveData) {
+            if (!pData.roles) pData.roles = {};
+
+            const allAbilities = liveData.abilities.map(a => typeof a === 'string' ? a.toLowerCase() : "");
+
+            const allMoves = new Set<string>();
+            if (activeBuild) {
+                activeBuild.moves.forEach(m => {
+                    if (typeof m === 'string') allMoves.add(m.toLowerCase());
+                });
+            }
+            if (pData.usageData?.moves) {
+                const uMoves = pData.usageData.moves;
+                if (Array.isArray(uMoves)) {
+                    uMoves.forEach((m: any) => {
+                        const moveStr = typeof m === 'string' ? m : m?.name;
+                        if (typeof moveStr === 'string' && moveStr) allMoves.add(moveStr.toLowerCase());
+                    });
+                } else {
+                    Object.keys(uMoves).forEach(m => {
+                        if (typeof m === 'string') allMoves.add(m.toLowerCase());
+                    });
+                }
+            }
+
+            const speedStat = liveData.stats.find(s => s.name === 'speed')?.base_stat || 100;
+
+            if (allAbilities.includes('drizzle')) pData.roles['rain_setter'] = 1;
+            if (allAbilities.includes('drought')) pData.roles['sun_setter'] = 1;
+            if (allAbilities.includes('snow warning')) pData.roles['snow_setter'] = 1;
+            if (allAbilities.includes('sand stream')) pData.roles['sand_setter'] = 1;
+
+            if (allMoves.has('trick room')) pData.roles['trick_room_setter'] = 1;
+            if (allMoves.has('tailwind')) pData.roles['tailwind_setter'] = 1;
+            if (allMoves.has('fake out')) pData.roles['fake_out'] = 1;
+            if (allMoves.has('follow me') || allMoves.has('rage powder')) pData.roles['redirector'] = 1;
+            if (allAbilities.includes('intimidate')) pData.roles['intimidate'] = 1;
+
+            if (allAbilities.includes('swift swim')) pData.roles['rain_abuser'] = 1;
+            if (allAbilities.includes('chlorophyll')) pData.roles['sun_abuser'] = 1;
+            if (speedStat <= 50) pData.roles['trick_room_abuser'] = 1;
+            if (speedStat >= 110) pData.roles['fast_sweeper'] = 1;
         }
     });
 
-    const archetypeScores = detectArchetypes(box);
-    const topArchetypes = archetypeScores
-        .filter((a) => a.score > 0)
-        .map((a) => a.archetype);
+    // 2. DETECT ARCHETYPES
+    const archetypes = detectArchetypes(filteredPool);
+    const BEAM_WIDTH = 4;
 
-    if (topArchetypes.length === 0) {
-        topArchetypes.push("goodstuff");
-    }
+    for (const { archetype } of archetypes) {
+        const blueprint = typedArchetypesData[archetype];
+        if (!blueprint) continue;
 
-    const recommendedStrategies: OptimizedTeamResult[] = [];
+        // 🧠 UPGRADED ALGORITHM: Anchor-Driven Initialization
+        let beams: { team: string[], score: number }[] = [];
 
-    for (const archetype of topArchetypes) {
-        let candidates = filteredPool.filter(name => {
-            const p = pokemonMap[name.toLowerCase()];
-            return p && (p.archetypes.includes(archetype) || p.archetypes.includes("goodstuff"));
-        });
+        if (blueprint.required.length > 0) {
+            const primaryRequiredRole = blueprint.required[0];
+            const anchors = filteredPool.filter(name => {
+                const p = pokemonMap[name.toLowerCase()];
+                return p?.roles?.[primaryRequiredRole];
+            });
 
-        if (candidates.length < 6) {
-            candidates = [...filteredPool];
+            for (const anchor of anchors) {
+                const team = [anchor];
+                const initialScore = evaluateTeam(team).score + getArchetypeBonus(team, archetype) + getSynergyScore(team);
+                beams.push({ team, score: initialScore });
+            }
         }
 
-        let beams: string[][] = [[]];
-        const beamWidth = 3;
+        if (beams.length === 0) {
+            beams = [{ team: [], score: 0 }];
+        }
 
-        for (let size = 0; size < 6; size++) {
-            let nextBeams: { team: string[]; score: number }[] = [];
+        const startingSlot = beams[0].team.length;
 
-            for (const currentTeam of beams) {
-                for (const candidate of candidates) {
-                    if (currentTeam.includes(candidate)) continue;
+        // Perform pruned beam expansion up to a full 6-member squad
+        for (let i = startingSlot; i < 6; i++) {
+            let nextBeams: { team: string[], score: number }[] = [];
 
-                    const nextTeam = [...currentTeam, candidate];
-                    const evaluation = evaluateTeam(nextTeam);
-                    
-                    const synergyScore = getSynergyScore(nextTeam, liveBoxData);
-                    let currentScore = evaluation.score + getArchetypeBonus(nextTeam, archetype) + synergyScore;
+            for (const beam of beams) {
+                // Dynamically evaluate missing context components
+                const missingPreferredRoles = blueprint.preferred.filter(role => {
+                    return !beam.team.some(memberName => pokemonMap[memberName.toLowerCase()]?.roles?.[role]);
+                });
 
-                    let megaCount = 0;
-                    for (const memberName of nextTeam) {
-                        const pData = pokemonMap[memberName.toLowerCase()];
-                        const buildKey = Object.keys(pData?.builds || {})[0] || "goodstuff";
-                        const activeBuild = pData?.builds && buildKey ? pData.builds[buildKey] : null;
-                        if (isMegaCaptain(memberName, activeBuild, pData)) {
-                            megaCount++;
+                for (const candidate of filteredPool) {
+                    if (beam.team.includes(candidate)) continue;
+
+                    const nextTeam = [...beam.team, candidate];
+                    const pData = pokemonMap[candidate.toLowerCase()];
+
+                    // Contextual scaling reward if they resolve outstanding strategic layout flaws
+                    let roleMatchBonus = 0;
+                    if (pData?.roles) {
+                        for (const role of missingPreferredRoles) {
+                            if (pData.roles[role]) {
+                                roleMatchBonus += 75; 
+                            }
                         }
                     }
-                    if (megaCount > 1) {
-                        currentScore -= 150;
-                    }
+
+                    let currentScore = evaluateTeam(nextTeam).score 
+                                       + getArchetypeBonus(nextTeam, archetype) 
+                                       + getSynergyScore(nextTeam)
+                                       + roleMatchBonus;
+
+                    const projectedItems = assignItemsForTeam(nextTeam, liveBoxData);
+                    currentScore += projectedItems.realismScore;
+
+                    // Severe pruning criteria for standard VGC format exceptions.
+                    if (projectedItems.megaCount > 1) currentScore -= 1000;
+                    if (projectedItems.duplicateCount > 0) currentScore -= 1200 * projectedItems.duplicateCount;
 
                     nextBeams.push({ team: nextTeam, score: currentScore });
                 }
             }
 
             nextBeams.sort((a, b) => b.score - a.score);
-            beams = nextBeams.slice(0, beamWidth).map(b => b.team);
+            beams = nextBeams.slice(0, BEAM_WIDTH);
         }
 
-        // Return multiple team branches generated from our multi-beam width path
-        for (const bestTeamNames of beams) {
+        // Process final layouts back to the array database mapping configuration
+        for (let b = 0; b < beams.length; b++) {
+            const bestTeamNames = beams[b]?.team;
             if (!bestTeamNames || bestTeamNames.length < 6) continue;
 
             const finalTeam = bestTeamNames.map(name => {
                 const pData = pokemonMap[name.toLowerCase()];
                 const liveData = liveBoxData[name.toLowerCase()];
-
                 const buildKey = Object.keys(pData?.builds || {})[0];
                 const originalBuild = buildKey ? pData.builds[buildKey] : null;
-
                 const isAuto = !originalBuild || Object.keys(pData.builds).length === 0 || buildKey === "goodstuff";
+                const clonedBuild = originalBuild ? { ...originalBuild, moves: [...originalBuild.moves] } : null;
 
                 return {
                     name: pData?.name || name,
-                    build: originalBuild || (pData?.builds?.["goodstuff"] || null),
+                    build: clonedBuild,
                     buildName: buildKey || "goodstuff",
                     types: pData?.types || liveData?.types || ["Normal"],
                     isAutoGenerated: isAuto,
@@ -292,17 +573,52 @@ export async function optimizeTeam(box: string[]): Promise<OptimizedTeamResult[]
                 };
             });
 
+            const assignedItems = assignItemsForTeam(bestTeamNames, liveBoxData);
+            for (const member of finalTeam) {
+                if (!member.build) continue;
+                const assigned = assignedItems.itemByName[member.name.toLowerCase()];
+                const pData = pokemonMap[member.name.toLowerCase()];
+                if (assigned && isRegulationLegalItem(assigned, pData)) {
+                    member.build.item = assigned;
+                } else {
+                    member.build.item = pickFirstLegalItem(REGULATED_FALLBACK_ITEMS, pData);
+                }
+            }
+
             const finalEvaluation = evaluateTeam(bestTeamNames);
-            const synergyScore = getSynergyScore(bestTeamNames, liveBoxData);
+            const synergyScore = getSynergyScore(bestTeamNames);
 
             recommendedStrategies.push({
                 archetype: archetype,
                 team: finalTeam,
-                score: finalEvaluation.score + getArchetypeBonus(bestTeamNames, archetype) + synergyScore,
+                score: finalEvaluation.score + getArchetypeBonus(bestTeamNames, archetype) + synergyScore + assignedItems.realismScore - (assignedItems.duplicateCount * 1200),
                 evaluation: finalEvaluation
             });
         }
     }
 
-    return recommendedStrategies.sort((a, b) => b.score - a.score).slice(0, 4);
+    // Filter unique options and select output priorities
+    const uniqueStrategies = Array.from(new Map(recommendedStrategies.map(s => [s.team.map(t => t.name).sort().join(','), s])).values());
+    uniqueStrategies.sort((a, b) => b.score - a.score);
+
+    const finalSelection: OptimizedTeamResult[] = [];
+    const seenArchetypes = new Set<string>();
+
+    for (const strat of uniqueStrategies) {
+        if (!seenArchetypes.has(strat.archetype)) {
+            finalSelection.push(strat);
+            seenArchetypes.add(strat.archetype);
+        }
+    }
+
+    if (finalSelection.length < 4) {
+        for (const strat of uniqueStrategies) {
+            if (!finalSelection.includes(strat)) {
+                finalSelection.push(strat);
+            }
+            if (finalSelection.length >= 4) break;
+        }
+    }
+
+    return finalSelection.sort((a, b) => b.score - a.score);
 }

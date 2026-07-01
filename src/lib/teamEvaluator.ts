@@ -17,10 +17,13 @@ export type Pokemon = {
   roles: Record<string, number>;
   builds: Record<string, PokemonBuild>;
   requires_item?: string;
+  usageData?: {
+    moves: { name: string; usage: string }[];
+    items: { name: string; usage: string }[];
+    abilities: { name: string; usage: string }[];
+  };
 };
 
-// 🌟 UPDATE: Unified Single Source of Truth
-// Hydrate the baseline competitive map dynamically from your local JSON database
 export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
   (pokemonData as any[]).map((p) => {
     return [
@@ -28,9 +31,11 @@ export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
       {
         name: p.name,
         types: p.types || ["Normal"],
-        roles: p.roles || { goodstuff: 1 },        // Safe fallback
-        archetypes: p.archetypes || ["goodstuff"], // Safe fallback
-        builds: p.builds || {}                     // Empty object fallback for optimizer injection
+        roles: p.roles || { goodstuff: 1 },
+        archetypes: p.archetypes || ["goodstuff"],
+        builds: p.builds || {},
+        usageData: p.usageData,
+        requires_item: p.requires_item // 🛠️ FIXED: Now it actually loads the Mega Stones!
       }
     ];
   })
@@ -38,28 +43,37 @@ export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
 
 /**
  * Structural macro evaluation focusing purely on stat checks and defensive type coverage.
- * (Micro-synergy like weather and Trick Room is handled by teamOptimizer.ts)
  */
 export function evaluateTeam(team: string[]) {
-  let score = 100; // Starting baseline evaluation score
+  let score = 100;
   const uniqueTypes = new Set<string>();
+  const typeCounts: Record<string, number> = {};
+  const breakdown: string[] = ["Base Score: 100"]; // 🌟 ADDED: Breakdown array
 
   for (const name of team) {
     const pData = pokemonMap[name.toLowerCase()];
     if (!pData) continue;
 
-    // Collect all unique typings present on this core combination
-    pData.types.forEach(t => uniqueTypes.add(t.toLowerCase()));
+    pData.types.forEach(t => {
+      const lowerType = t.toLowerCase();
+      uniqueTypes.add(lowerType);
+      typeCounts[lowerType] = (typeCounts[lowerType] || 0) + 1;
+    });
   }
 
-  // Reward diverse typing coverage to prevent massive structural weaknesses
-  score += uniqueTypes.size * 10;
+  // Reward diverse typing
+  const typeBonus = uniqueTypes.size * 10;
+  score += typeBonus;
+  breakdown.push(`+${typeBonus} Synergy: Diverse Type Coverage (${uniqueTypes.size} types)`); // 🌟 ADDED
 
-  return {
-    score,
-    breakdown: {
-      uniqueTypesCount: uniqueTypes.size,
-      typesPresent: Array.from(uniqueTypes)
+  // VGC RULE: Check for extreme type stacking (3+ of the same type)
+  for (const [type, count] of Object.entries(typeCounts)) {
+    if (count >= 3) {
+      score -= 150;
+      breakdown.push(`-150 Penalty: Excessive ${type.charAt(0).toUpperCase() + type.slice(1)}-Type Stacking (${count})`); // 🌟 ADDED
     }
-  };
+  }
+
+  // 🌟 UPDATE: Return breakdown alongside the rest of the data
+  return { score, uniqueTypes: Array.from(uniqueTypes), breakdown };
 }
