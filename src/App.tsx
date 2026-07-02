@@ -8,6 +8,8 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import { getTacticalAdvice } from "./lib/tacticalAdvisor";
 
+import { animate, stagger } from "animejs";
+
 const TYPE_COLORS: Record<string, { bg: string; border: string; icon: string }> = {
   Normal: { bg: "bg-[#A0A29F]", border: "border-[#737573]", icon: "/icons/normal.svg" },
   Fire: { bg: "bg-[#E72324]", border: "border-[#AB1A1A]", icon: "/icons/fire.svg" },
@@ -86,8 +88,103 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedInspectPokemon, setSelectedInspectPokemon] = useState<any | null>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
+  const navbarRef = useRef<HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
+
+  const appContainerRef = useRef<HTMLDivElement>(null);
+  const themeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const isDark = theme === "dark";
+
+  // 4. ANIME.JS: Smooth Theme Switch & Button Spin
+  useEffect(() => {
+    // Animate the main container's background and text colors
+    if (appContainerRef.current) {
+      animate(appContainerRef.current, {
+        backgroundColor: isDark ? "#020617" : "#f8fafc",
+        color: isDark ? "#f1f5f9" : "#1e293b",
+        duration: 600,
+        easing: "easeInOutSine",
+      });
+    }
+
+    // Animate the toggle button
+    if (themeButtonRef.current) {
+      animate(themeButtonRef.current, {
+        rotate: isDark ? [-180, 0] : [180, 0],
+        scale: [0.5, 1],
+        duration: 600,
+        easing: "easeOutBack",
+      });
+    }
+  }, [isDark]);
+
+  // Auto-hide navbar logic mapping
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setIsNavbarVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setIsNavbarVisible(false);
+      } else {
+        setIsNavbarVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 1. ANIME.JS: Navbar Disappear/Reappear Translation Engine
+  useEffect(() => {
+    if (navbarRef.current) {
+      animate(navbarRef.current, {
+        translateY: isNavbarVisible ? 0 : -110,
+        duration: 350,
+        easing: "easeOutQuad",
+      });
+    }
+  }, [isNavbarVisible]);
+
+  // 2. ANIME.JS: Staggered Cascade Entry Animation for Meta Strategy Cards
+  useEffect(() => {
+    if (optimizedStrategies.length > 0 && !isOptimizing) {
+      // Ensure elements are in the DOM before animating
+      setTimeout(() => {
+        animate(".strategy-card", {
+          opacity: [0, 1],
+          translateY: [24, 0],
+          scale: [0.98, 1],
+          delay: stagger(120),
+          duration: 500,
+          easing: "easeOutCubic",
+        });
+      }, 50);
+    }
+  }, [optimizedStrategies, isOptimizing]);
+
+  // 3. ANIME.JS: Spring Physics Matrix Pop for Inspect Modal
+  useEffect(() => {
+    if (selectedInspectPokemon) {
+      animate(".modal-backdrop", {
+        opacity: [0, 1],
+        duration: 200,
+        easing: "easeOutQuad",
+      });
+
+      animate(".modal-content", {
+        scale: [0.92, 1],
+        opacity: [0, 1],
+        duration: 450,
+        easing: "easeOutBack",
+      });
+    }
+  }, [selectedInspectPokemon]);
 
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
@@ -151,12 +248,10 @@ export default function App() {
     alert("Copied Champions Team to clipboard!");
   };
 
-  const isDark = theme === "dark";
-
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${isDark ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-slate-800"}`}>
-      {/* 🏝️ FLOATING ISLAND NAVBAR */}
-      <nav className="sticky top-4 z-40 px-4 sm:px-6">
+      {/* 🏝️ FLOATING ISLAND NAVBAR WITH ANIME.JS TRANSLATION MANAGEMENT */}
+      <nav ref={navbarRef} className="sticky top-4 z-40 px-4 sm:px-6 will-change-transform">
         <div className={`max-w-7xl mx-auto flex justify-between items-center gap-4 backdrop-blur-lg rounded-full shadow-lg shadow-slate-900/5 px-4 py-2.5 sm:px-5 border ${isDark ? "bg-slate-900/80 border-slate-800/80" : "bg-white/80 border-slate-200/70"}`}>
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full flex items-center justify-center text-base shrink-0">
@@ -188,15 +283,132 @@ export default function App() {
       </nav>
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
-        {/* ⚡ ACTION CARD */}
-        <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl shadow-sm p-4 sm:p-5 border transition-colors duration-300 ${isDark ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"}`}>
-          <div>
-            <h2 className={`text-sm font-black tracking-wide ${isDark ? "text-white" : "text-slate-900"}`}>
-              Pokémon Champions Sandbox
-            </h2>
+
+        {/* 🏆 UNIFIED RESULTS CONTAINER */}
+        <div ref={resultsRef} className={`rounded-3xl p-6 sm:p-8 border shadow-inner scroll-mt-24 transition-colors duration-300 flex flex-col max-h-[800px] ${isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-100/50 border-slate-200"}`}>
+          <h2 className={`text-xl font-black mb-6 flex items-center gap-2 shrink-0 ${isDark ? "text-white" : "text-slate-900"}`}>
+            <span>📊</span> Meta Draft Analysis
+          </h2>
+
+          {/* 📜 SCROLLABLE WRAPPER REGION */}
+          <div className="flex-1 max-h-[620px] overflow-y-auto pr-2 custom-scrollbar">
+            {isOptimizing ? (
+              <div className={`border rounded-2xl p-8 shadow-sm flex flex-col items-center justify-center min-h-[350px] space-y-6 animate-pulse ${isDark ? "bg-slate-950 border-indigo-900/50" : "bg-white border-indigo-100"}`}>
+                <div className="relative w-16 h-16 flex items-center justify-center">
+                  <div className={`absolute inset-0 border-4 rounded-full ${isDark ? "border-indigo-950" : "border-indigo-100"}`}></div>
+                  <div className="absolute inset-0 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-2xl animate-bounce">⚙️</span>
+                </div>
+                <div className="text-center space-y-2">
+                  <h3 className={`text-sm font-black tracking-wider uppercase ${isDark ? "text-slate-200" : "text-slate-900"}`}>Executing Beam Search Matrix</h3>
+                  <p className={`text-xs max-w-md leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>Evaluating dynamic ability counters, mapping defensive type coverage weights, and optimizing active synergy configurations...</p>
+                </div>
+                <div className={`w-64 h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
+                  <div className="bg-indigo-600 h-full w-2/3 rounded-full animate-[loading_1.5s_ease-in-out_infinite]"></div>
+                </div>
+              </div>
+            ) : optimizedStrategies.length > 0 ? (
+              <div className="space-y-6">
+                {optimizedStrategies.map((strategy, index) => {
+                  const evaluation = strategy.evaluation;
+                  const baseEvalScore = evaluation?.score || 0;
+                  const uniqueTypesList = evaluation?.uniqueTypes || [];
+                  const uniqueTypesCount = uniqueTypesList.length;
+                  const synergyScore = strategy.score - baseEvalScore;
+                  const breakdownLogs = evaluation?.breakdown || [];
+                  const tacticalAdvice = getTacticalAdvice(strategy.team);
+
+                  return (
+                    // Added .strategy-card and opacity-0 for Anime.js selection orchestration
+                    <div key={`${strategy.archetype}-${index}`} className={`strategy-card opacity-0 rounded-2xl p-6 shadow-sm border hover:shadow-md transition-shadow duration-200 ${isDark ? "bg-slate-950 border-slate-800" : "bg-white border-slate-200"}`}>
+                      <div className={`flex flex-col sm:flex-row justify-between sm:items-center border-b pb-4 mb-6 gap-4 ${isDark ? "border-slate-800" : "border-slate-100"}`}>
+                        <div>
+                          <h3 className="text-base font-black text-indigo-500 uppercase tracking-wider">{strategy.archetype.replace("_", " ")} CORE (Variant {index + 1})</h3>
+                          <p className={`text-xs font-medium mt-0.5 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Total Composite Rating: <span className="text-indigo-500 font-black font-mono text-sm">{strategy.score}</span></p>
+                        </div>
+                        <button onClick={() => exportShowdownText(strategy.team)} className="text-[11px] bg-slate-900 text-white px-3 py-2 rounded-xl hover:bg-slate-800 font-bold tracking-wide transition shadow-sm self-start sm:self-center dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200">Copy Showdown Text</button>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div className={`border rounded-xl p-4 shadow-sm ${isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50 border-slate-100"}`}>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>🛡️ Defensive Core Types</span>
+                            <span className={`text-xs font-bold font-mono ${isDark ? "text-slate-300" : "text-slate-700"}`}>{uniqueTypesCount} Unique</span>
+                          </div>
+                          <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-200"}`}>
+                            <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(100, (uniqueTypesCount / 18) * 100)}%` }} />
+                          </div>
+                          <p className={`text-[10px] mt-2 truncate w-full ${isDark ? "text-slate-500" : "text-slate-400"}`}>Coverage: {uniqueTypesList.join(', ')}</p>
+                        </div>
+
+                        <div className={`border rounded-xl p-4 shadow-sm ${isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50 border-slate-100"}`}>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>🤝 Mechanical Synergy</span>
+                            <span className={`text-xs font-bold font-mono ${isDark ? "text-slate-300" : "text-slate-700"}`}>{Math.round(synergyScore)} pts</span>
+                          </div>
+                          <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-200"}`}>
+                            <div className="bg-indigo-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(100, Math.max(0, synergyScore))}%` }} />
+                          </div>
+                          <p className={`text-[10px] mt-2 truncate w-full ${isDark ? "text-slate-500" : "text-slate-400"}`}>Calculated from abilities, items, movesets, and field mechanics.</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        {strategy.team.map((member) => (
+                          <div key={member.name} onClick={() => setSelectedInspectPokemon(member)} className={`border rounded-xl p-3 flex flex-col items-center cursor-pointer transition-colors duration-200 group relative shadow-sm ${isDark ? "bg-slate-900 border-slate-800 hover:border-indigo-500 hover:bg-indigo-900/20" : "bg-slate-50 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50"}`}>
+                            {member.isAutoGenerated && <span className="absolute top-1 right-1 text-[9px] bg-amber-100 text-amber-800 px-1 rounded font-bold">Auto</span>}
+                            <div className="h-16 flex items-end justify-center mb-2">
+                              <PokemonSprite displayName={member.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-200" />
+                            </div>
+                            <span className={`text-xs font-bold truncate w-full text-center ${isDark ? "text-slate-200" : "text-slate-800"}`}>{member.name}</span>
+                            <span className="text-[10px] text-slate-400 truncate w-full text-center mt-0.5">{member.build?.item || "No Item"}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className={`mt-6 border rounded-xl p-5 ${isDark ? "bg-indigo-950/20 border-indigo-900/30" : "bg-indigo-50/30 border-indigo-50"}`}>
+                        <h4 className={`text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2 ${isDark ? "text-indigo-400" : "text-indigo-900"}`}><span>🤖</span> Coach's Tactical Playbook</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                          <div>
+                            <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Winning Positions & Counters</h5>
+                            <ul className="space-y-3">
+                              {tacticalAdvice.map((strat, i) => (
+                                <li key={i} className={`p-3 rounded-xl border shadow-sm relative overflow-hidden ${isDark ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"}`}>
+                                  <div className={`absolute top-0 right-0 px-2 py-0.5 rounded-bl-lg text-[9px] font-bold uppercase text-white ${strat.category === 'Lead' ? 'bg-indigo-500' : strat.category === 'Pair' ? 'bg-emerald-500' : strat.category === 'Speed' ? 'bg-sky-500' : strat.category === 'Counter' ? 'bg-rose-500' : strat.category === 'Gap' ? 'bg-amber-500' : 'bg-slate-500'}`}>{strat.category}</div>
+                                  <h6 className={`text-xs font-bold flex items-center gap-1.5 mb-1 ${isDark ? "text-slate-200" : "text-slate-800"}`}><span>{strat.icon}</span> {strat.title}</h6>
+                                  <p className={`text-[11px] leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>{strat.desc}</p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Algorithm Evaluation Logs</h5>
+                            <div className="bg-slate-900 rounded-xl p-3.5 h-full max-h-[300px] overflow-y-auto custom-scrollbar shadow-inner text-[11px] font-mono">
+                              {breakdownLogs.length > 0 ? breakdownLogs.map((log: string, i: number) => {
+                                const isPositive = log.includes("+");
+                                const isNegative = log.includes("-");
+                                return <div key={i} className={`mb-1 ${isPositive ? "text-emerald-400" : isNegative ? "text-rose-400" : "text-slate-400"}`}>{`> ${log}`}</div>;
+                              }) : <div className="text-slate-500 italic">No detailed logs generated for this configuration.</div>}
+                              <div className="text-indigo-400 mt-2 border-t border-slate-800 pt-2 font-bold">{`> ${synergyScore >= 0 ? '+' : ''}${Math.round(synergyScore)} Mechanical Synergy Applied`}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className={`border rounded-2xl p-8 shadow-sm flex flex-col items-center justify-center min-h-[250px] border-dashed transition-all duration-300 ${isDark ? "bg-slate-900/30 border-slate-800" : "bg-slate-50/50 border-slate-200"}`}>
+                <span className="text-4xl opacity-60 mb-4 hover:animate-pulse cursor-default transition-all duration-300">💤</span>
+                <h3 className={`text-sm font-bold tracking-wider uppercase mb-1 ${isDark ? "text-slate-500" : "text-slate-400"}`}>Awaiting Sandbox Data</h3>
+                <p className={`text-xs max-w-sm text-center leading-relaxed ${isDark ? "text-slate-600" : "text-slate-500"}`}>Select at least 6 Pokémon in your workbench and click "Optimize Team" to generate synergy analysis and meta team cores.</p>
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          {/* 📌 FIXED CONTROL FOOTER BAR */}
+          <div className={`mt-6 pt-6 flex items-center justify-end gap-3 border-t shrink-0 ${isDark ? "border-slate-800/80" : "border-slate-200"}`}>
             <button
               onClick={handleClearBox}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 border ${isDark ? "bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700" : "bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-200"}`}
@@ -260,131 +472,12 @@ export default function App() {
           </div>
         </div>
 
-        {/* 🏆 UNIFIED RESULTS CONTAINER */}
-        <div ref={resultsRef} className={`mt-10 rounded-3xl p-6 sm:p-8 border shadow-inner scroll-mt-24 transition-colors duration-300 ${isDark ? "bg-slate-900/40 border-slate-800" : "bg-slate-100/50 border-slate-200"}`}>
-          <h2 className={`text-xl font-black mb-6 flex items-center gap-2 ${isDark ? "text-white" : "text-slate-900"}`}>
-            <span>📊</span> Meta Draft Analysis
-          </h2>
-
-          {isOptimizing ? (
-            <div className={`border rounded-2xl p-8 shadow-sm flex flex-col items-center justify-center min-h-[350px] space-y-6 animate-pulse ${isDark ? "bg-slate-950 border-indigo-900/50" : "bg-white border-indigo-100"}`}>
-              <div className="relative w-16 h-16 flex items-center justify-center">
-                <div className={`absolute inset-0 border-4 rounded-full ${isDark ? "border-indigo-950" : "border-indigo-100"}`}></div>
-                <div className="absolute inset-0 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-2xl animate-bounce">⚙️</span>
-              </div>
-              <div className="text-center space-y-2">
-                <h3 className={`text-sm font-black tracking-wider uppercase ${isDark ? "text-slate-200" : "text-slate-900"}`}>Executing Beam Search Matrix</h3>
-                <p className={`text-xs max-w-md leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>Evaluating dynamic ability counters, mapping defensive type coverage weights, and optimizing active synergy configurations...</p>
-              </div>
-              <div className={`w-64 h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
-                <div className="bg-indigo-600 h-full w-2/3 rounded-full animate-[loading_1.5s_ease-in-out_infinite]"></div>
-              </div>
-            </div>
-          ) : optimizedStrategies.length > 0 ? (
-            <div className="space-y-6 animate-fade-in-up">
-              {optimizedStrategies.map((strategy, index) => {
-                const evaluation = strategy.evaluation;
-                const baseEvalScore = evaluation?.score || 0;
-                const uniqueTypesList = evaluation?.uniqueTypes || [];
-                const uniqueTypesCount = uniqueTypesList.length;
-                const synergyScore = strategy.score - baseEvalScore;
-                const breakdownLogs = evaluation?.breakdown || [];
-                const tacticalAdvice = getTacticalAdvice(strategy.team);
-
-                return (
-                  <div key={`${strategy.archetype}-${index}`} className={`rounded-2xl p-6 shadow-sm border hover:shadow-md transition-shadow duration-200 ${isDark ? "bg-slate-950 border-slate-800" : "bg-white border-slate-200"}`}>
-                    <div className={`flex flex-col sm:flex-row justify-between sm:items-center border-b pb-4 mb-6 gap-4 ${isDark ? "border-slate-800" : "border-slate-100"}`}>
-                      <div>
-                        <h3 className="text-base font-black text-indigo-500 uppercase tracking-wider">{strategy.archetype.replace("_", " ")} CORE (Variant {index + 1})</h3>
-                        <p className={`text-xs font-medium mt-0.5 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Total Composite Rating: <span className="text-indigo-500 font-black font-mono text-sm">{strategy.score}</span></p>
-                      </div>
-                      <button onClick={() => exportShowdownText(strategy.team)} className="text-[11px] bg-slate-900 text-white px-3 py-2 rounded-xl hover:bg-slate-800 font-bold tracking-wide transition shadow-sm self-start sm:self-center dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200">Copy Showdown Text</button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className={`border rounded-xl p-4 shadow-sm ${isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50 border-slate-100"}`}>
-                        <div className="flex justify-between items-center mb-2">
-                          <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>🛡️ Defensive Core Types</span>
-                          <span className={`text-xs font-bold font-mono ${isDark ? "text-slate-300" : "text-slate-700"}`}>{uniqueTypesCount} Unique</span>
-                        </div>
-                        <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-200"}`}>
-                          <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(100, (uniqueTypesCount / 18) * 100)}%` }} />
-                        </div>
-                        <p className={`text-[10px] mt-2 truncate w-full ${isDark ? "text-slate-500" : "text-slate-400"}`}>Coverage: {uniqueTypesList.join(', ')}</p>
-                      </div>
-
-                      <div className={`border rounded-xl p-4 shadow-sm ${isDark ? "bg-slate-900/50 border-slate-800" : "bg-slate-50 border-slate-100"}`}>
-                        <div className="flex justify-between items-center mb-2">
-                          <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? "text-slate-400" : "text-slate-500"}`}>🤝 Mechanical Synergy</span>
-                          <span className={`text-xs font-bold font-mono ${isDark ? "text-slate-300" : "text-slate-700"}`}>{Math.round(synergyScore)} pts</span>
-                        </div>
-                        <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-200"}`}>
-                          <div className="bg-indigo-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(100, Math.max(0, synergyScore))}%` }} />
-                        </div>
-                        <p className={`text-[10px] mt-2 truncate w-full ${isDark ? "text-slate-500" : "text-slate-400"}`}>Calculated from abilities, items, movesets, and field mechanics.</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                      {strategy.team.map((member) => (
-                        <div key={member.name} onClick={() => setSelectedInspectPokemon(member)} className={`border rounded-xl p-3 flex flex-col items-center cursor-pointer transition-colors duration-200 group relative shadow-sm ${isDark ? "bg-slate-900 border-slate-800 hover:border-indigo-500 hover:bg-indigo-900/20" : "bg-slate-50 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50"}`}>
-                          {member.isAutoGenerated && <span className="absolute top-1 right-1 text-[9px] bg-amber-100 text-amber-800 px-1 rounded font-bold">Auto</span>}
-                          <div className="h-16 flex items-end justify-center mb-2">
-                            <PokemonSprite displayName={member.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-200" />
-                          </div>
-                          <span className={`text-xs font-bold truncate w-full text-center ${isDark ? "text-slate-200" : "text-slate-800"}`}>{member.name}</span>
-                          <span className="text-[10px] text-slate-400 truncate w-full text-center mt-0.5">{member.build?.item || "No Item"}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className={`mt-6 border rounded-xl p-5 ${isDark ? "bg-indigo-950/20 border-indigo-900/30" : "bg-indigo-50/30 border-indigo-50"}`}>
-                      <h4 className={`text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2 ${isDark ? "text-indigo-400" : "text-indigo-900"}`}><span>🤖</span> Coach's Tactical Playbook</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                          <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Winning Positions & Counters</h5>
-                          <ul className="space-y-3">
-                            {tacticalAdvice.map((strat, i) => (
-                              <li key={i} className={`p-3 rounded-xl border shadow-sm relative overflow-hidden ${isDark ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"}`}>
-                                <div className={`absolute top-0 right-0 px-2 py-0.5 rounded-bl-lg text-[9px] font-bold uppercase text-white ${strat.category === 'Lead' ? 'bg-indigo-500' : strat.category === 'Pair' ? 'bg-emerald-500' : strat.category === 'Speed' ? 'bg-sky-500' : strat.category === 'Counter' ? 'bg-rose-500' : strat.category === 'Gap' ? 'bg-amber-500' : 'bg-slate-500'}`}>{strat.category}</div>
-                                <h6 className={`text-xs font-bold flex items-center gap-1.5 mb-1 ${isDark ? "text-slate-200" : "text-slate-800"}`}><span>{strat.icon}</span> {strat.title}</h6>
-                                <p className={`text-[11px] leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>{strat.desc}</p>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Algorithm Evaluation Logs</h5>
-                          <div className="bg-slate-900 rounded-xl p-3.5 h-full max-h-[300px] overflow-y-auto custom-scrollbar shadow-inner text-[11px] font-mono">
-                            {breakdownLogs.length > 0 ? breakdownLogs.map((log: string, i: number) => {
-                              const isPositive = log.includes("+");
-                              const isNegative = log.includes("-");
-                              return <div key={i} className={`mb-1 ${isPositive ? "text-emerald-400" : isNegative ? "text-rose-400" : "text-slate-400"}`}>{`> ${log}`}</div>;
-                            }) : <div className="text-slate-500 italic">No detailed logs generated for this configuration.</div>}
-                            <div className="text-indigo-400 mt-2 border-t border-slate-800 pt-2 font-bold">{`> ${synergyScore >= 0 ? '+' : ''}${Math.round(synergyScore)} Mechanical Synergy Applied`}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className={`border rounded-2xl p-8 shadow-sm flex flex-col items-center justify-center min-h-[250px] border-dashed transition-all duration-300 ${isDark ? "bg-slate-900/30 border-slate-800" : "bg-slate-50/50 border-slate-200"}`}>
-              <span className="text-4xl opacity-60 mb-4 hover:animate-pulse cursor-default transition-all duration-300">💤</span>
-              <h3 className={`text-sm font-bold tracking-wider uppercase mb-1 ${isDark ? "text-slate-500" : "text-slate-400"}`}>Awaiting Sandbox Data</h3>
-              <p className={`text-xs max-w-sm text-center leading-relaxed ${isDark ? "text-slate-600" : "text-slate-500"}`}>Select at least 6 Pokémon in your workbench and click "Optimize Team" to generate synergy analysis and meta team cores.</p>
-            </div>
-          )}
-        </div>
       </div>
 
-      {/* INSPECT MODAL */}
+      {/* INSPECT MODAL MODIFIED WITH TARGETING CLASSES FOR ANIME.JS */}
       {selectedInspectPokemon && (
-        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className={`rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-scale-in transition-colors duration-300 ${isDark ? "bg-slate-900 text-slate-100" : "bg-white text-slate-800"}`}>
+        <div className="modal-backdrop fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0">
+          <div className={`modal-content opacity-0 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl transition-colors duration-300 ${isDark ? "bg-slate-900 text-slate-100" : "bg-white text-slate-800"}`}>
             <div className="bg-slate-950 p-5 flex justify-between items-center text-white border-b border-slate-800">
               <div className="flex items-center gap-4">
                 <PokemonSprite displayName={selectedInspectPokemon.name} className="w-16 h-16 object-contain drop-shadow-md" />
