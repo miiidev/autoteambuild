@@ -246,7 +246,6 @@ function assignItemsForTeam(teamNames: string[], liveBoxData: Record<string, Liv
             evs: "",
             moves: [],
             nature: "",
-            teraType: "Normal",
             item: itemByName[memberName.toLowerCase()] || ""
         };
 
@@ -282,8 +281,7 @@ function generateDynamicFallbackBuild(liveData: LiveGameData | null, pData?: Pok
         item: safeDefaultItem,
         nature: "Hardy",
         evs: "252 HP / 4 Def / 252 Spe",
-        moves: ["Protect", "Substitute", "Toxic", "Helping Hand"],
-        teraType: liveData?.types?.[0] || "Normal"
+        moves: ["Protect", "Substitute", "Toxic", "Helping Hand"]
     };
 
     let appliedUsageItem = false;

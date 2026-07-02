@@ -11,6 +11,10 @@
     "update-data": "tsx scripts/updateMeta.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.1.1",
+    "@mui/material": "^9.1.2",
     "@pkmn/dex": "^0.10.11",
     "@pkmn/sim": "^0.10.11",
     "@tailwindcss/vite": "^4.3.1",

@@ -7,7 +7,6 @@ export type PokemonBuild = {
   nature: string;
   evs: string;
   moves: string[];
-  teraType: string;
 };
 
 export type Pokemon = {
@@ -24,7 +23,7 @@ export type Pokemon = {
   };
 };
 
-export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
+export const pokemonMap: Record<string, Pokemon & { baseStats?: any; availableForms?: any }> = Object.fromEntries(
   (pokemonData as any[]).map((p) => {
     return [
       p.name.toLowerCase(),
@@ -35,7 +34,10 @@ export const pokemonMap: Record<string, Pokemon> = Object.fromEntries(
         archetypes: p.archetypes || ["goodstuff"],
         builds: p.builds || {},
         usageData: p.usageData,
-        requires_item: p.requires_item // 🛠️ FIXED: Now it actually loads the Mega Stones!
+        requires_item: p.requires_item,
+        // 💾 Save stat objects locally so the app can access them instantly
+        baseStats: p.baseStats,
+        availableForms: p.availableForms
       }
     ];
   })

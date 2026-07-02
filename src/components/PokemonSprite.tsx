@@ -1,13 +1,19 @@
 // src/components/PokemonSprite.tsx
-import { useState } from "react";
+import { useState, memo } from "react";
 
 interface PokemonSpriteProps {
     displayName: string;
     className?: string; // Allows parent components to pass custom sizing/styling
 }
 
-export default function PokemonSprite({ displayName, className }: PokemonSpriteProps) {
-    const [imgIndex, setImgIndex] = useState(0);
+// 🧠 Global Image Index Cache: Remembers successful URL indices per species.
+// This prevents redundant broken URL probing and layout thrashing during text filtering.
+const globalImageIndexCache: Record<string, number> = {};
+
+function PokemonSpriteComponent({ displayName, className }: PokemonSpriteProps) {
+    const [imgIndex, setImgIndex] = useState<number>(() => {
+        return globalImageIndexCache[displayName] !== undefined ? globalImageIndexCache[displayName] : 0;
+    });
 
     const getShowdownName = (rawName: string) => {
         let cleanName = rawName.toLowerCase().trim();
@@ -78,12 +84,17 @@ export default function PokemonSprite({ displayName, className }: PokemonSpriteP
             alt={displayName}
             onError={() => {
                 if (imgIndex < sources.length - 1) {
-                    setImgIndex((prev) => prev + 1);
+                    const nextIndex = imgIndex + 1;
+                    globalImageIndexCache[displayName] = nextIndex;
+                    setImgIndex(nextIndex);
                 }
             }}
-            // If a className is passed, use it. Otherwise, fallback to the default grid styling.
+            loading="lazy"
             className={className || "max-h-16 max-w-full object-contain group-hover:scale-110 transition-transform duration-300"}
             style={{ imageRendering: imgIndex > 0 ? 'pixelated' : 'auto' }}
         />
     );
 }
+
+const PokemonSprite = memo(PokemonSpriteComponent);
+export default PokemonSprite;
